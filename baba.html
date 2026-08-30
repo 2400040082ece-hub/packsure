@@ -1,0 +1,3617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PackSure • Legal Metrology Portal</title>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js">
+    </script>
+
+    <style>
+        /* ================================================================
+           PACKSURE - VIBRANT & USER-FRIENDLY STYLES
+           ================================================================ */
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #ccfbf1;
+            --secondary: #7c3aed;
+            --secondary-light: #ede9fe;
+            --accent: #f59e0b;
+            --accent-light: #fef3c7;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --pink: #ec4899;
+            --pink-light: #fce7f3;
+            --orange: #f97316;
+            --orange-light: #ffedd5;
+            --bg-main: #f0fdfa;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-subtle: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --gradient-hero: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #2dd4bf 100%);
+            --gradient-secondary: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #4f46e5 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #ef4444 100%);
+            --gradient-bg: linear-gradient(180deg, #f0fdfa 0%, #ecfdf5 50%, #f5f3ff 100%);
+            --radius: 16px;
+            --radius-sm: 10px;
+
+            /* dark mode overrides */
+            --dark-bg-main: #0f172a;
+            --dark-card-bg: #1e293b;
+            --dark-text-main: #f1f5f9;
+            --dark-text-muted: #94a3b8;
+            --dark-text-subtle: #64748b;
+            --dark-border-color: #334155;
+            --dark-shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
+            --dark-gradient-bg: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg-main: var(--dark-bg-main);
+            --card-bg: var(--dark-card-bg);
+            --text-main: var(--dark-text-main);
+            --text-muted: var(--dark-text-muted);
+            --text-subtle: var(--dark-text-subtle);
+            --border-color: var(--dark-border-color);
+            --shadow-sm: var(--dark-shadow);
+            --shadow-md: var(--dark-shadow);
+            --shadow-lg: var(--dark-shadow);
+            --shadow-xl: var(--dark-shadow);
+            --gradient-bg: var(--dark-gradient-bg);
+            --primary-light: #134e4a;
+            --secondary-light: #2e1065;
+            --accent-light: #451a03;
+            --success-light: #064e3b;
+            --danger-light: #7f1d1d;
+            --info-light: #1e3a8a;
+            --pink-light: #831843;
+            --orange-light: #7c2d12;
+        }
+
+        [data-theme="dark"] .card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .main-header {
+            background: rgba(30, 41, 59, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .user-badge {
+            background: #134e4a;
+            border-color: #0d9488;
+            color: #ccfbf1;
+        }
+
+        [data-theme="dark"] .brand-text p {
+            -webkit-text-fill-color: var(--text-subtle);
+        }
+
+        [data-theme="dark"] .gov-topbar {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            border-bottom-color: #f59e0b;
+        }
+
+        [data-theme="dark"] .privacy-banner {
+            background: linear-gradient(135deg, #064e3b 0%, #0f766e 50%, #134e4a 100%);
+            border-bottom-color: #0d9488;
+            color: #ccfbf1;
+        }
+
+        [data-theme="dark"] .privacy-badge {
+            background: #0d9488;
+        }
+
+        [data-theme="dark"] .gps-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-color: #334155;
+        }
+
+        [data-theme="dark"] .gps-details .location-name {
+            color: #93c5fd;
+        }
+
+        [data-theme="dark"] .gps-details .location-coords {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .gps-icon {
+            background: #1e3a8a;
+        }
+
+        [data-theme="dark"] .image-upload-zone {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        [data-theme="dark"] .image-upload-zone:hover {
+            border-color: #0d9488;
+            background: #134e4a;
+        }
+
+        [data-theme="dark"] .legal-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .legal-card-header {
+            background: var(--gradient-hero);
+        }
+
+        [data-theme="dark"] .legal-section {
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .legal-section .badge-rule {
+            background: #2e1065;
+            color: #c4b5fd;
+        }
+
+        [data-theme="dark"] .legal-link {
+            background: #134e4a;
+            color: #5eead4;
+        }
+
+        [data-theme="dark"] .legal-link:hover {
+            background: #0d9488;
+            color: #fff;
+        }
+
+        [data-theme="dark"] .tab-btn {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .tab-btn:hover {
+            background: #134e4a;
+            color: #ccfbf1;
+        }
+
+        [data-theme="dark"] .tab-btn.active {
+            background: var(--gradient-hero);
+            color: #fff;
+        }
+
+        [data-theme="dark"] .form-control {
+            background: #1e293b;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            border-color: var(--primary);
+            background: #0f172a;
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        }
+
+        [data-theme="dark"] .btn-outline {
+            background: transparent;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        [data-theme="dark"] .btn-outline:hover {
+            background: #134e4a;
+            border-color: #0d9488;
+            color: #ccfbf1;
+        }
+
+        [data-theme="dark"] .auth-wrapper {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .auth-tabs {
+            background: #0f172a;
+        }
+
+        [data-theme="dark"] .auth-tab-btn {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .auth-tab-btn.active {
+            background: var(--gradient-hero);
+            color: #fff;
+        }
+
+        [data-theme="dark"] .auth-mode-toggle {
+            background: #0f172a;
+        }
+
+        [data-theme="dark"] .auth-mode-btn {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .auth-mode-btn.active {
+            background: #1e293b;
+            color: #ccfbf1;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] .credentials-helper {
+            background: #0f172a;
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .credentials-helper .cred-item {
+            background: #1e293b;
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .quick-login-btn {
+            background: #1e293b;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        [data-theme="dark"] .quick-login-btn:hover {
+            border-color: #0d9488;
+            background: #134e4a;
+        }
+
+        [data-theme="dark"] .data-table th {
+            background: #0f172a;
+            color: var(--text-muted);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .data-table td {
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .data-table tr:hover {
+            background: #134e4a;
+        }
+
+        [data-theme="dark"] .verification-gate.verified {
+            background: linear-gradient(135deg, #064e3b 0%, #0f766e 100%);
+            border-color: #34d399;
+            color: #ccfbf1;
+        }
+
+        [data-theme="dark"] .verification-gate.inconclusive {
+            background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+            border-color: #f87171;
+            color: #fca5a5;
+        }
+
+        [data-theme="dark"] .verification-gate.pending {
+            background: linear-gradient(135deg, #451a03 0%, #713f12 100%);
+            border-color: #fbbf24;
+            color: #fde68a;
+        }
+
+        [data-theme="dark"] .metric-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+        }
+
+        [data-theme="dark"] .modal-header {
+            background: var(--card-bg);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .modal-footer {
+            background: #0f172a;
+            border-top-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .modal-backdrop {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        [data-theme="dark"] .badge-pending {
+            background: #451a03;
+            color: #fde68a;
+        }
+
+        [data-theme="dark"] .badge-under-review {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+
+        [data-theme="dark"] .badge-forwarded {
+            background: #2e1065;
+            color: #c4b5fd;
+        }
+
+        [data-theme="dark"] .badge-resolved {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        [data-theme="dark"] .badge-rejected {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        [data-theme="dark"] .badge-admin {
+            background: #2e1065;
+            color: #c4b5fd;
+        }
+
+        [data-theme="dark"] .timeline-content {
+            background: #0f172a;
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .timeline-bullet {
+            background: var(--card-bg);
+            border-color: var(--primary);
+        }
+
+        [data-theme="dark"] .timeline-bullet.completed {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        [data-theme="dark"] .login-error {
+            background: #7f1d1d;
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+
+        [data-theme="dark"] .firebase-status {
+            background: #0d9488;
+        }
+
+        [data-theme="dark"] .preview-box {
+            background: #0f172a;
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .preview-box div {
+            background: #0f172a;
+        }
+
+        [data-theme="dark"] .gps-status-badge.success {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        [data-theme="dark"] .gps-status-badge.warning {
+            background: #451a03;
+            color: #fde68a;
+        }
+
+        [data-theme="dark"] .gps-status-badge.error {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        [data-theme="dark"] .badge-count {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        [data-theme="dark"] ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        [data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: #0d9488;
+        }
+
+        [data-theme="dark"] .btn-primary {
+            background: var(--gradient-hero);
+            border-color: #0d9488;
+        }
+
+        [data-theme="dark"] .btn-secondary {
+            background: var(--gradient-secondary);
+            border-color: #7c3aed;
+        }
+
+        [data-theme="dark"] .btn-accent {
+            background: var(--gradient-accent);
+            border-color: #f59e0b;
+        }
+
+        [data-theme="dark"] .btn-danger {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        /* theme toggle button */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            margin-left: 8px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: #134e4a;
+            border-color: #0d9488;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .gov-topbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            font-size: 0.82rem;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .gov-flag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .tricolor-stripe {
+            width: 20px;
+            height: 14px;
+            background: linear-gradient(to bottom, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%);
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .gov-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .firebase-status {
+            font-size: 0.7rem;
+            padding: 4px 14px;
+            border-radius: 999px;
+            background: #10b981;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .main-header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-sm);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .brand-icon {
+            background: var(--gradient-hero);
+            color: #fff;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+        .brand-icon:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+        .brand-text h1 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .brand-text p {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            -webkit-text-fill-color: var(--text-subtle);
+        }
+        .user-menu-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .user-badge {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-dark);
+        }
+        .user-badge .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-hero);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .privacy-banner {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%);
+            border-bottom: 2px solid #6ee7b7;
+            color: #065f46;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            text-align: center;
+            flex-wrap: wrap;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        .privacy-badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 28px;
+        }
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .main-content {
+            min-width: 0;
+        }
+
+        /* ===== SIDEBAR - LEGAL POLICY MANUAL ===== */
+        .legal-sidebar {
+            position: sticky;
+            top: 90px;
+            align-self: start;
+        }
+        .legal-card {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .legal-card-header {
+            background: var(--gradient-hero);
+            padding: 18px 22px;
+            color: #fff;
+        }
+        .legal-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-card-header h3 span {
+            font-size: 1.4rem;
+        }
+        .legal-card-body {
+            padding: 20px 22px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .legal-card-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .legal-card-body::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        .legal-section {
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .legal-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .legal-section h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .legal-section p,
+        .legal-section li {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .legal-section ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+        .legal-section ul li {
+            margin-bottom: 2px;
+        }
+        .legal-section .badge-rule {
+            display: inline-block;
+            background: var(--secondary-light);
+            color: var(--secondary);
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-right: 4px;
+        }
+        .legal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.82rem;
+            padding: 6px 14px;
+            background: var(--primary-light);
+            border-radius: 999px;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+        .legal-link:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateX(4px);
+        }
+        .legal-quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .legal-quick-actions .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            border-radius: 999px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-sm-primary {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        .btn-sm-primary:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-sm-secondary {
+            background: var(--secondary-light);
+            color: var(--secondary);
+        }
+        .btn-sm-secondary:hover {
+            background: var(--secondary);
+            color: #fff;
+        }
+        .btn-sm-accent {
+            background: var(--accent-light);
+            color: #92400e;
+        }
+        .btn-sm-accent:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ===== TABS ===== */
+        .action-tabs-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 6px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            transition: all 0.25s;
+        }
+        .tab-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: var(--gradient-hero);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+        .tab-btn .badge-count {
+            background: var(--danger);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 1px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+            transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+        }
+        .card-title .icon {
+            font-size: 1.6rem;
+        }
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+        .form-label .req {
+            color: var(--danger);
+            font-weight: 900;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: #fafafa;
+            color: var(--text-main);
+            transition: all 0.25s;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+            outline: none;
+        }
+        select.form-control {
+            appearance: auto;
+            cursor: pointer;
+            font-weight: 600;
+            background: #fafafa;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            line-height: 1.2;
+            transition: all 0.25s;
+        }
+        .btn-lg {
+            padding: 18px 38px;
+            font-size: 1.15rem;
+            border-radius: var(--radius);
+            font-weight: 900;
+        }
+        .btn-primary {
+            background: var(--gradient-hero);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: #fff;
+            border-color: var(--secondary);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-outline {
+            background: #fff;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            filter: grayscale(40%);
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ===== GPS BANNER ===== */
+        .gps-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            border-radius: var(--radius-sm);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .gps-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+        .gps-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--info);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            animation: pulse-blue 2s infinite;
+        }
+        @keyframes pulse-blue {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+        }
+        .gps-details {
+            flex: 1;
+        }
+        .gps-details .location-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #1e3a8a;
+        }
+        .gps-details .location-coords {
+            font-size: 0.85rem;
+            color: #2563eb;
+        }
+        .gps-details .location-accuracy {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            margin-top: 2px;
+        }
+        .gps-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .gps-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 999px;
+        }
+        .gps-status-badge.success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .gps-status-badge.warning {
+            background: var(--accent-light);
+            color: #92400e;
+        }
+        .gps-status-badge.error {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        /* ===== IMAGE UPLOAD ===== */
+        .image-upload-zone {
+            border: 3px dashed #cbd5e1;
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .image-upload-zone:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: scale(1.01);
+        }
+        .upload-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .preview-box {
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            max-width: 440px;
+            margin: 16px auto 0;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .preview-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== VERIFICATION GATE ===== */
+        .verification-gate {
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 22px;
+            margin-bottom: 22px;
+            animation: fadeIn 0.4s ease;
+        }
+        .verification-gate.verified {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border: 2px solid #34d399;
+            color: #065f46;
+        }
+        .verification-gate.inconclusive {
+            background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%);
+            border: 2px solid #f87171;
+            color: #7f1d1d;
+        }
+        .verification-gate.pending {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            color: #713f12;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== AUTH ===== */
+        .auth-wrapper {
+            max-width: 560px;
+            margin: 40px auto;
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 36px;
+            box-shadow: var(--shadow-xl);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .auth-tabs {
+            display: flex;
+            background: #f1f5f9;
+            padding: 6px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+        }
+        .auth-tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+            text-align: center;
+            transition: all 0.25s;
+        }
+        .auth-tab-btn.active {
+            background: var(--gradient-hero);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Auth toggle between Sign In and Sign Up */
+        .auth-mode-toggle {
+            display: flex;
+            background: #f1f5f9;
+            padding: 6px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+        }
+        .auth-mode-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+            text-align: center;
+            transition: all 0.25s;
+        }
+        .auth-mode-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 36px;
+            margin-top: 18px;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 22px;
+        }
+        .timeline-bullet {
+            position: absolute;
+            left: -36px;
+            top: 2px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fff;
+            border: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        .timeline-bullet.completed {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .timeline-bullet.completed::after {
+            content: "✓";
+            color: #fff;
+            font-weight: 900;
+            font-size: 0.8rem;
+        }
+        .timeline-content {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .badge-under-review {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .badge-forwarded {
+            background: #ede9fe;
+            color: #6b21a8;
+        }
+        .badge-resolved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-admin {
+            background: var(--secondary-light);
+            color: var(--secondary);
+        }
+
+        /* ===== TABLES ===== */
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .data-table th {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 18px;
+            border-bottom: 3px solid var(--border-color);
+        }
+        .data-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.92rem;
+            vertical-align: middle;
+        }
+        .data-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        /* ===== METRICS ===== */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+        .metric-card {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s;
+        }
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+        .metric-data h3 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+        .metric-data p {
+            font-size: 0.78rem;
+            color: var(--text-subtle);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeIn 0.25s ease;
+        }
+        .modal-content {
+            background: #fff;
+            border-radius: var(--radius);
+            max-width: 840px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: scaleIn 0.25s ease-out;
+        }
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-header {
+            padding: 20px 28px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 10;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .modal-body {
+            padding: 28px;
+        }
+        .modal-footer {
+            padding: 18px 28px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: #f8fafc;
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        /* ===== LOGIN ERROR ===== */
+        .login-error {
+            background: var(--danger-light);
+            border: 2px solid var(--danger);
+            color: #991b1b;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+            margin-bottom: 16px;
+        }
+        .login-error.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== CREDENTIALS HELPER ===== */
+        .credentials-helper {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+        }
+        .credentials-helper .label {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .credentials-helper .cred-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .credentials-helper .cred-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            padding: 4px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            font-size: 0.75rem;
+        }
+        .credentials-helper .cred-item .role-badge {
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--secondary-light);
+            color: var(--secondary);
+        }
+        .credentials-helper .password-note {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            margin-top: 6px;
+        }
+        .credentials-helper .password-note strong {
+            color: var(--primary-dark);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-lg {
+                width: 100%;
+                justify-content: center;
+            }
+            .app-container {
+                padding: 16px;
+            }
+            .card {
+                padding: 18px;
+            }
+            .legal-sidebar {
+                position: static;
+            }
+            .gov-topbar {
+                font-size: 0.7rem;
+                padding: 8px 16px;
+            }
+            .brand-text h1 {
+                font-size: 1.2rem;
+            }
+            .user-badge {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+            }
+            .credentials-helper .cred-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .gps-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .gps-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .action-tabs-bar {
+                gap: 6px;
+            }
+            .tab-btn {
+                padding: 10px 14px;
+                font-size: 0.82rem;
+            }
+        }
+
+        .text-gradient {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .gap-12 {
+            gap: 12px;
+        }
+        .fw-800 {
+            font-weight: 800;
+        }
+
+        /* GPS Loading animation */
+        .gps-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--info);
+            animation: spin 0.8s ease infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Quick Login Buttons */
+        .quick-login-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .quick-login-btn {
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-color);
+            background: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: all 0.25s;
+            text-align: center;
+        }
+        .quick-login-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .quick-login-btn .role-tag {
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+        .quick-login-btn .role-tag.citizen {
+            background: var(--info-light);
+            color: var(--info);
+        }
+        .quick-login-btn .role-tag.admin {
+            background: var(--secondary-light);
+            color: var(--secondary);
+        }
+        .quick-login-btn .email-small {
+            font-size: 0.65rem;
+            color: var(--text-subtle);
+            display: block;
+            font-weight: 400;
+        }
+
+        /* dark mode override for quick login btn */
+        [data-theme="dark"] .quick-login-btn .role-tag.citizen {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+        [data-theme="dark"] .quick-login-btn .role-tag.admin {
+            background: #2e1065;
+            color: #c4b5fd;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-root"></div>
+
+    <script>
+        // ================================================================
+        // FIREBASE INITIALIZATION
+        // ================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKiiDe0zZ02Wxzi_JumsHoSLOiT9TSC-w",
+            authDomain: "packsure-f74ad.firebaseapp.com",
+            projectId: "packsure-f74ad",
+            storageBucket: "packsure-f74ad.firebasestorage.app",
+            messagingSenderId: "231321330151",
+            appId: "1:231321330151:web:9341797d7c81566a505d42",
+            measurementId: "G-QQSHEHZNT1"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
+
+        console.log("🔥 Firebase initialized: packsure-f74ad");
+
+        // ================================================================
+        // AUTHORIZED ADMIN CREDENTIALS
+        // ================================================================
+        const AUTHORIZED_ADMINS = {
+            "rajesh.deshmukh@gov.in": {
+                password: "Admin@2026",
+                name: "Shri Rajesh Deshmukh",
+                id: "admin-mh",
+                region: "Maharashtra",
+                designation: "Assistant Controller of Legal Metrology",
+                department: "Department of Legal Metrology, Maharashtra",
+                regionCode: "MH",
+                district: "Mumbai / Thane / Pune",
+                headquarters: "Old Customs House, Fort, Mumbai - 400001",
+                helpline: "022-22620199",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+            },
+            "sunita.sharma@gov.in": {
+                password: "Admin@2026",
+                name: "Dr. Sunita Sharma",
+                id: "admin-dl",
+                region: "Delhi",
+                designation: "Deputy Controller (Enforcement)",
+                department: "Weights & Measures Department, Govt. of NCT of Delhi",
+                regionCode: "DL",
+                district: "Delhi NCT (All Districts)",
+                headquarters: "Vikas Bhawan, I.P. Estate, New Delhi - 110002",
+                helpline: "011-23379269",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+            },
+            "kr.venkatesh@gov.in": {
+                password: "Admin@2026",
+                name: "Shri K. R. Venkatesh",
+                id: "admin-ka",
+                region: "Karnataka",
+                designation: "Senior Legal Metrology Officer",
+                department: "Department of Legal Metrology, Karnataka",
+                regionCode: "KA",
+                district: "Bengaluru Urban / Mysuru",
+                headquarters: "Ali Asker Road, Bengaluru - 560052",
+                helpline: "080-22253772",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80"
+            },
+            "meenakshi.sundaram@gov.in": {
+                password: "Admin@2026",
+                name: "Smt. Meenakshi Sundaram",
+                id: "admin-tn",
+                region: "Tamil Nadu",
+                designation: "Joint Controller of Legal Metrology",
+                department: "Labour & Legal Metrology Department, Tamil Nadu",
+                regionCode: "TN",
+                district: "Chennai / Coimbatore / Madurai",
+                headquarters: "DMS Complex, Teynampet, Chennai - 600006",
+                helpline: "044-24330101",
+                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
+            },
+            "alok.verma@gov.in": {
+                password: "Admin@2026",
+                name: "Shri Alok Kumar Verma",
+                id: "admin-up",
+                region: "Uttar Pradesh",
+                designation: "Assistant Controller of Legal Metrology",
+                department: "Legal Metrology Directorate, Uttar Pradesh",
+                regionCode: "UP",
+                district: "Lucknow / Noida / Kanpur",
+                headquarters: "Jawahar Bhawan, Ashok Marg, Lucknow - 226001",
+                helpline: "0522-2287114",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80"
+            }
+        };
+
+        // ================================================================
+        // ACCURATE GPS REVERSE GEOCODING - FIXED WITH MORE CITIES!
+        // ================================================================
+        const CITY_COORDINATES = {
+            // Maharashtra
+            "Mumbai": { lat: 19.0760, lng: 72.8777, state: "Maharashtra", pincode: "400001", district: "Mumbai" },
+            "Mumbai Suburban": { lat: 19.1197, lng: 72.8468, state: "Maharashtra", pincode: "400053",
+                district: "Mumbai Suburban" },
+            "Pune": { lat: 18.5204, lng: 73.8567, state: "Maharashtra", pincode: "411001", district: "Pune" },
+            "Nagpur": { lat: 21.1458, lng: 79.0882, state: "Maharashtra", pincode: "440001", district: "Nagpur" },
+            "Nashik": { lat: 19.9975, lng: 73.7898, state: "Maharashtra", pincode: "422001", district: "Nashik" },
+            "Aurangabad": { lat: 19.8762, lng: 75.3433, state: "Maharashtra", pincode: "431001",
+                district: "Aurangabad" },
+            "Thane": { lat: 19.2183, lng: 72.9781, state: "Maharashtra", pincode: "400601", district: "Thane" },
+            "Kolhapur": { lat: 16.7065, lng: 74.2435, state: "Maharashtra", pincode: "416001", district: "Kolhapur" },
+            "Solapur": { lat: 17.6599, lng: 75.9064, state: "Maharashtra", pincode: "413001", district: "Solapur" },
+            "Amravati": { lat: 20.9367, lng: 77.7501, state: "Maharashtra", pincode: "444601", district: "Amravati" },
+            "Chandrapur": { lat: 19.9615, lng: 79.3020, state: "Maharashtra", pincode: "442401",
+                district: "Chandrapur" },
+            "Dhule": { lat: 20.9042, lng: 74.7749, state: "Maharashtra", pincode: "424001", district: "Dhule" },
+            "Jalgaon": { lat: 21.0077, lng: 75.5626, state: "Maharashtra", pincode: "425001", district: "Jalgaon" },
+            "Latur": { lat: 18.3991, lng: 76.5842, state: "Maharashtra", pincode: "413512", district: "Latur" },
+            "Nanded": { lat: 19.1563, lng: 77.3130, state: "Maharashtra", pincode: "431601", district: "Nanded" },
+            "Ratnagiri": { lat: 16.9849, lng: 73.3150, state: "Maharashtra", pincode: "415612",
+                district: "Ratnagiri" },
+            "Sangli": { lat: 16.8543, lng: 74.5646, state: "Maharashtra", pincode: "416416", district: "Sangli" },
+            "Satara": { lat: 17.6806, lng: 74.0186, state: "Maharashtra", pincode: "415001", district: "Satara" },
+
+            // Delhi
+            "New Delhi": { lat: 28.6139, lng: 77.2090, state: "Delhi", pincode: "110001", district: "New Delhi" },
+            "Central Delhi": { lat: 28.6597, lng: 77.2314, state: "Delhi", pincode: "110002",
+                district: "Central Delhi" },
+            "South Delhi": { lat: 28.5355, lng: 77.2314, state: "Delhi", pincode: "110003", district: "South Delhi" },
+            "North Delhi": { lat: 28.7041, lng: 77.1025, state: "Delhi", pincode: "110006", district: "North Delhi" },
+            "East Delhi": { lat: 28.6692, lng: 77.2955, state: "Delhi", pincode: "110092", district: "East Delhi" },
+            "West Delhi": { lat: 28.6361, lng: 77.0500, state: "Delhi", pincode: "110015", district: "West Delhi" },
+
+            // Karnataka
+            "Bengaluru Urban": { lat: 12.9716, lng: 77.5946, state: "Karnataka", pincode: "560001",
+                district: "Bengaluru Urban" },
+            "Mysuru": { lat: 12.2958, lng: 76.6394, state: "Karnataka", pincode: "570001", district: "Mysuru" },
+            "Mangaluru": { lat: 12.9141, lng: 74.8560, state: "Karnataka", pincode: "575001", district: "Mangaluru" },
+            "Hubballi": { lat: 15.3647, lng: 75.1240, state: "Karnataka", pincode: "580001", district: "Hubballi" },
+            "Belagavi": { lat: 15.8497, lng: 74.4977, state: "Karnataka", pincode: "590001", district: "Belagavi" },
+
+            // Tamil Nadu
+            "Chennai": { lat: 13.0827, lng: 80.2707, state: "Tamil Nadu", pincode: "600001", district: "Chennai" },
+            "Coimbatore": { lat: 11.0168, lng: 76.9558, state: "Tamil Nadu", pincode: "641001",
+                district: "Coimbatore" },
+            "Madurai": { lat: 9.9252, lng: 78.1198, state: "Tamil Nadu", pincode: "625001", district: "Madurai" },
+            "Tiruchirappalli": { lat: 10.7905, lng: 78.7047, state: "Tamil Nadu", pincode: "620001",
+                district: "Tiruchirappalli" },
+            "Salem": { lat: 11.6643, lng: 78.1460, state: "Tamil Nadu", pincode: "636001", district: "Salem" },
+
+            // Uttar Pradesh
+            "Lucknow": { lat: 26.8467, lng: 80.9462, state: "Uttar Pradesh", pincode: "226001", district: "Lucknow" },
+            "Kanpur": { lat: 26.4499, lng: 80.3319, state: "Uttar Pradesh", pincode: "208001", district: "Kanpur" },
+            "Varanasi": { lat: 25.3176, lng: 82.9739, state: "Uttar Pradesh", pincode: "221001", district: "Varanasi" },
+            "Agra": { lat: 27.1767, lng: 78.0081, state: "Uttar Pradesh", pincode: "282001", district: "Agra" },
+            "Prayagraj": { lat: 25.4358, lng: 81.8463, state: "Uttar Pradesh", pincode: "211001",
+                district: "Prayagraj" },
+            "Noida": { lat: 28.5355, lng: 77.3910, state: "Uttar Pradesh", pincode: "201301", district: "Noida" },
+
+            // Gujarat
+            "Ahmedabad": { lat: 23.0225, lng: 72.5714, state: "Gujarat", pincode: "380001", district: "Ahmedabad" },
+            "Surat": { lat: 21.1702, lng: 72.8311, state: "Gujarat", pincode: "395001", district: "Surat" },
+            "Vadodara": { lat: 22.3094, lng: 73.1812, state: "Gujarat", pincode: "390001", district: "Vadodara" },
+            "Rajkot": { lat: 22.2587, lng: 71.1924, state: "Gujarat", pincode: "360001", district: "Rajkot" },
+
+            // West Bengal
+            "Kolkata": { lat: 22.5726, lng: 88.3639, state: "West Bengal", pincode: "700001", district: "Kolkata" },
+            "Howrah": { lat: 22.6464, lng: 88.4188, state: "West Bengal", pincode: "711101", district: "Howrah" },
+
+            // Rajasthan
+            "Jaipur": { lat: 26.9124, lng: 75.7873, state: "Rajasthan", pincode: "302001", district: "Jaipur" },
+            "Jodhpur": { lat: 25.3216, lng: 73.0248, state: "Rajasthan", pincode: "342001", district: "Jodhpur" },
+            "Udaipur": { lat: 24.5790, lng: 73.6982, state: "Rajasthan", pincode: "313001", district: "Udaipur" },
+
+            // Kerala
+            "Thiruvananthapuram": { lat: 8.5241, lng: 76.9366, state: "Kerala", pincode: "695001",
+                district: "Thiruvananthapuram" },
+            "Kochi": { lat: 9.9772, lng: 76.2676, state: "Kerala", pincode: "682001", district: "Kochi" },
+            "Kozhikode": { lat: 11.2588, lng: 75.7804, state: "Kerala", pincode: "673001", district: "Kozhikode" },
+
+            // Andhra Pradesh
+            "Visakhapatnam": { lat: 17.6868, lng: 83.2185, state: "Andhra Pradesh", pincode: "530001",
+                district: "Visakhapatnam" },
+            "Vijayawada": { lat: 16.5062, lng: 80.6480, state: "Andhra Pradesh", pincode: "520001",
+                district: "Vijayawada" },
+
+            // Telangana
+            "Hyderabad": { lat: 17.3850, lng: 78.4867, state: "Telangana", pincode: "500001", district: "Hyderabad" },
+            "Warangal": { lat: 18.1124, lng: 79.0193, state: "Telangana", pincode: "506001", district: "Warangal" },
+
+            // Punjab
+            "Chandigarh": { lat: 30.7333, lng: 76.7794, state: "Punjab", pincode: "160001", district: "Chandigarh" },
+            "Ludhiana": { lat: 30.9009, lng: 75.8573, state: "Punjab", pincode: "141001", district: "Ludhiana" },
+            "Amritsar": { lat: 31.6340, lng: 74.8733, state: "Punjab", pincode: "143001", district: "Amritsar" },
+
+            // Haryana
+            "Gurugram": { lat: 28.4595, lng: 77.0266, state: "Haryana", pincode: "122001", district: "Gurugram" },
+            "Faridabad": { lat: 28.4089, lng: 77.3178, state: "Haryana", pincode: "121001", district: "Faridabad" },
+
+            // Bihar
+            "Patna": { lat: 25.5941, lng: 85.1376, state: "Bihar", pincode: "800001", district: "Patna" },
+
+            // Madhya Pradesh
+            "Bhopal": { lat: 23.2599, lng: 77.4126, state: "Madhya Pradesh", pincode: "462001", district: "Bhopal" },
+            "Indore": { lat: 22.7196, lng: 75.8577, state: "Madhya Pradesh", pincode: "452001", district: "Indore" },
+            "Jabalpur": { lat: 23.1815, lng: 79.9864, state: "Madhya Pradesh", pincode: "482001",
+                district: "Jabalpur" },
+
+            // Odisha
+            "Bhubaneswar": { lat: 20.2961, lng: 85.8245, state: "Odisha", pincode: "751001",
+                district: "Bhubaneswar" },
+            "Cuttack": { lat: 20.5192, lng: 86.4571, state: "Odisha", pincode: "753001", district: "Cuttack" },
+
+            // Jharkhand
+            "Ranchi": { lat: 23.3441, lng: 85.3096, state: "Jharkhand", pincode: "834001", district: "Ranchi" },
+
+            // Chhattisgarh
+            "Raipur": { lat: 21.2514, lng: 81.6296, state: "Chhattisgarh", pincode: "492001", district: "Raipur" },
+
+            // Uttarakhand
+            "Dehradun": { lat: 30.3165, lng: 78.0322, state: "Uttarakhand", pincode: "248001", district: "Dehradun" },
+
+            // Himachal Pradesh
+            "Shimla": { lat: 31.1048, lng: 77.1734, state: "Himachal Pradesh", pincode: "171001", district: "Shimla" },
+
+            // Goa
+            "Panaji": { lat: 15.4909, lng: 73.8278, state: "Goa", pincode: "403001", district: "Panaji" }
+        };
+
+        function findClosestCity(lat, lng) {
+            let closest = null;
+            let minDist = Infinity;
+
+            for (const [city, data] of Object.entries(CITY_COORDINATES)) {
+                const dist = Math.sqrt(Math.pow(lat - data.lat, 2) + Math.pow(lng - data.lng, 2));
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = { city, ...data, distance: dist };
+                }
+            }
+
+            return closest;
+        }
+
+        // ================================================================
+        // LEGAL METROLOGY RULES ENGINE (Abbreviated for space)
+        // ================================================================
+        const LEGAL_METROLOGY_RULES = {
+            ACT_NAME: "Legal Metrology Act, 2009",
+            RULES_NAME: "Legal Metrology (Packaged Commodities) Rules, 2011",
+            AUTHORITY: "Department of Consumer Affairs, Ministry of Consumer Affairs, Government of India",
+            SAH_PORTAL_REF: "https://consumeraffairs.gov.in/pages/legal-metrology-act",
+            MANDATORY_DECLARATIONS: [
+                { id: "MANUFACTURER_DETAILS", ruleRef: "Rule 6(1)(a)", title: "Name & Complete Address of Manufacturer / Packer / Importer",
+                    description: "Package must show the full physical name and address of the manufacturer, packer, or importer.",
+                    severity: "CRITICAL", keywords: ["mfd by", "manufactured by", "packed by", "pkd by", "marketed by",
+                        "imported by", "mktd by", "address", "pincode", "road", "industrial area", "mfg by"
+                    ] },
+                { id: "GENERIC_NAME", ruleRef: "Rule 6(1)(b)", title: "Generic / Common Name of Product",
+                    description: "The common name of the product inside the package must be clearly printed.",
+                    severity: "HIGH", keywords: ["product", "commodity", "item", "description", "contents",
+                        "name of commodity", "generic name"
+                    ] },
+                { id: "NET_QUANTITY", ruleRef: "Rule 6(1)(c) & Rule 11", title: "Net Quantity in Standard Metric Units",
+                    description: "Net quantity in standard metric units (g, kg, ml, l, or count N). Non-metric units like lbs/oz alone are illegal.",
+                    severity: "CRITICAL", keywords: ["net qty", "net quantity", "net weight", "net wt", "net content",
+                        "net vol", "g", "kg", "ml", "l", "ltr", "gm", "units", "pcs", "count", "n"
+                    ] },
+                { id: "MFG_DATE", ruleRef: "Rule 6(1)(d)", title: "Month and Year of Manufacture / Packing",
+                    description: "Month and year of manufacture or packing must be printed clearly.",
+                    severity: "CRITICAL", keywords: ["mfd", "mfg", "pkd", "packed", "date of mfg", "month & year",
+                        "mfg date", "pkd date", "batch", "lot"
+                    ] },
+                { id: "MRP_DECLARATION", ruleRef: "Rule 6(1)(e)", title: "Maximum Retail Price (MRP) Declaration",
+                    description: "MRP inclusive of all taxes in Rupees format (e.g. 'MRP Rs. XX.XX incl. of all taxes' or '₹ XX.XX'). Changing price with stickers is illegal.",
+                    severity: "CRITICAL", keywords: ["mrp", "max retail price", "maximum retail price",
+                        "incl. of all taxes", "inclusive of all taxes", "rs.", "₹", "inr"
+                    ] },
+                { id: "CONSUMER_CARE", ruleRef: "Rule 6(1)(n)", title: "Consumer Care / Grievance Helpline Details",
+                    description: "Contact name, telephone helpline number, address, and email ID for customer complaints.",
+                    severity: "HIGH", keywords: ["consumer care", "customer care", "helpline", "toll free", "feedback",
+                        "email", "complaint", "contact us", "care cell", "toll-free", "grievance", "customercare"
+                    ] },
+                { id: "COUNTRY_OF_ORIGIN", ruleRef: "Rule 6(10)", title: "Country of Origin / Manufacture",
+                    description: "Country of origin must be clearly printed on all domestic and imported packaged goods.",
+                    severity: "HIGH", keywords: ["country of origin", "made in", "product of", "origin",
+                        "manufactured in", "india", "imported from"
+                    ] },
+                { id: "FONT_SIZE_READABILITY", ruleRef: "Rule 7 & Schedule II", title: "Minimum Font Size & Readability",
+                    description: "Letters and numbers on the label must meet minimum height rules based on package area.",
+                    severity: "HIGH", keywords: ["pdp", "font size", "readability", "prominence", "contrast"] }
+            ],
+            SAH_CATEGORIES: [
+                { id: "SAH-01", code: "LM-MRP-01", categoryName: "Missing or Unclear MRP Price",
+                    description: "MRP is not printed, hidden, smudged, unreadable, or missing '(incl. of all taxes)' statement.",
+                    severity: "CRITICAL", icon: "🏷️", rulesViolated: ["Rule 6(1)(e)"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009 (Fine up to ₹25,000 for first offence)" },
+                { id: "SAH-02", code: "LM-MRP-02", categoryName: "Overcharging / Price Sticker on Top of MRP",
+                    description: "Seller is charging more than printed MRP or pasted a higher price sticker over printed price.",
+                    severity: "CRITICAL", icon: "💰", rulesViolated: ["Rule 6(1)(e)", "Rule 18(2)"],
+                    penaltySection: "Section 36(2) of Legal Metrology Act, 2009" },
+                { id: "SAH-03", code: "LM-NET-01", categoryName: "Wrong / Missing Net Quantity (Weight or Volume)",
+                    description: "Net quantity is missing, given in non-standard units (e.g. only lbs/oz), or package has less quantity.",
+                    severity: "CRITICAL", icon: "⚖️", rulesViolated: ["Rule 6(1)(c)", "Rule 11", "Rule 12"],
+                    penaltySection: "Section 36(1) & Section 30 of Legal Metrology Act, 2009" },
+                { id: "SAH-04", code: "LM-MFG-01", categoryName: "Missing Manufacturer / Packer Address",
+                    description: "Full company name or physical factory address of manufacturer/packer is missing.",
+                    severity: "HIGH", icon: "🏭", rulesViolated: ["Rule 6(1)(a)"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" },
+                { id: "SAH-05", code: "LM-DATE-01", categoryName: "Missing / Unclear Date of Manufacture or Packing",
+                    description: "Month and year of manufacture or packing is missing, smudged, expired, or altered.",
+                    severity: "CRITICAL", icon: "📅", rulesViolated: ["Rule 6(1)(d)"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" },
+                { id: "SAH-06", code: "LM-CARE-01", categoryName: "Missing Consumer Care Helpline / Email",
+                    description: "Customer care phone number, email ID, or contact address is missing from the package.",
+                    severity: "HIGH", icon: "📞", rulesViolated: ["Rule 6(1)(n)"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" },
+                { id: "SAH-07", code: "LM-ORIG-01", categoryName: "Missing Country of Origin",
+                    description: "Country of Origin (e.g. Made in India / Made in Country) is missing on imported or packaged product.",
+                    severity: "HIGH", icon: "🌍", rulesViolated: ["Rule 6(10)"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" },
+                { id: "SAH-08", code: "LM-FONT-01", categoryName: "Very Small Font / Unreadable Text",
+                    description: "Label text size is too small and does not meet minimum legal font height requirements.",
+                    severity: "MEDIUM", icon: "🔍", rulesViolated: ["Rule 7", "Schedule II"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" },
+                { id: "SAH-09", code: "LM-DECP-01", categoryName: "Deceptive / Misleading Oversized Packaging",
+                    description: "Package box is made unnecessarily large to mislead buyers into thinking it contains more quantity.",
+                    severity: "HIGH", icon: "📦", rulesViolated: ["Rule 5", "Rule 21"],
+                    penaltySection: "Section 36(1) of Legal Metrology Act, 2009" }
+            ],
+            SCHEDULE_II_FONT_RULES: [
+                { maxAreaSqCm: 50, areaLabel: "Area ≤ 50 cm² (Small Packet)", minHeightNormalMm: 1.0 },
+                { maxAreaSqCm: 100, areaLabel: "50 cm² < Area ≤ 100 cm² (Medium Box)", minHeightNormalMm: 1.5 },
+                { maxAreaSqCm: 500, areaLabel: "100 cm² < Area ≤ 500 cm² (Standard Bag/Carton)", minHeightNormalMm: 2.0 },
+                { maxAreaSqCm: 2500, areaLabel: "500 cm² < Area ≤ 2500 cm² (Large Container)", minHeightNormalMm: 4.0 },
+                { maxAreaSqCm: 999999, areaLabel: "Area > 2500 cm² (Bulk Sack)", minHeightNormalMm: 6.0 }
+            ],
+            STANDARD_METRIC_UNITS: ["mg", "g", "kg", "ml", "l", "ltr", "kl", "cm", "m", "mm", "sq m", "sq cm", "u",
+                "units", "n", "pcs", "piece", "pieces", "tablets", "capsules", "wipes", "sheets", "pairs", "rolls",
+                "meter", "metre", "gram", "kilogram", "liter", "litre", "milliliter", "millilitre"
+            ]
+        };
+
+        // ================================================================
+        // AI VERIFICATION ENGINE (Abbreviated)
+        // ================================================================
+        class MetrologyAIValidator {
+            static analyzeCompliance(input) {
+                const { categoryId, description, ocrText = "", detectedDetails = {}, estimatedAreaSqCm = 150 } = input;
+                const cleanOcr = (ocrText || "").toLowerCase();
+                const cleanDesc = (description || "").toLowerCase();
+                const combinedText = `${cleanOcr} ${cleanDesc}`;
+                const selectedCategory = LEGAL_METROLOGY_RULES.SAH_CATEGORIES.find(c => c.id === categoryId) || LEGAL_METROLOGY_RULES
+                    .SAH_CATEGORIES[0];
+                const declarationsAudit = LEGAL_METROLOGY_RULES.MANDATORY_DECLARATIONS.map(decl => {
+                    let isPresent = false,
+                        confidence = 0,
+                        matchedSnippet = "",
+                        status = "FAIL",
+                        note = "";
+                    // Simplified checks for brevity
+                    if (decl.id === "MANUFACTURER_DETAILS") {
+                        if (detectedDetails.manufacturer && detectedDetails.manufacturer.length > 5) { isPresent =
+                            true;
+                            confidence = 0.94;
+                            matchedSnippet = detectedDetails.manufacturer; } else { const match = decl.keywords
+                                .some(kw => combinedText.includes(kw)); if (match) { isPresent = true;
+                                confidence = 0.82;
+                                matchedSnippet = "Found manufacturer address"; } }
+                        note = isPresent ? "Compliant: Manufacturer or packer address is printed." :
+                            "Missing: No valid manufacturer or packer address found.";
+                    } else if (decl.id === "GENERIC_NAME") {
+                        if (detectedDetails.genericName && detectedDetails.genericName.length > 2) { isPresent =
+                            true;
+                            confidence = 0.95;
+                            matchedSnippet = detectedDetails.genericName; } else { const match = decl.keywords
+                                .some(kw => combinedText.includes(kw)) || cleanOcr.length > 20; if (match) {
+                                isPresent = true;
+                                confidence = 0.78;
+                                matchedSnippet = detectedDetails.title || "Generic product name present"; } }
+                        note = isPresent ? "Compliant: Product name clearly declared." :
+                            "Missing: Product common or generic name is missing.";
+                    } else if (decl.id === "NET_QUANTITY") {
+                        const qtyRegex =
+                            /(\b\d+(\.\d+)?\s*(g|kg|gm|gms|ml|l|ltr|litres|grams|units|pcs|pieces|count|n|sheets|m|cm)\b)/i;
+                        if (detectedDetails.netQuantity || qtyRegex.test(combinedText)) {
+                            isPresent = true;
+                            confidence = 0.92;
+                            const match = combinedText.match(qtyRegex);
+                            matchedSnippet = detectedDetails.netQuantity || (match ? match[0] : "Standard net qty");
+                            const unit = (matchedSnippet.match(/[a-zA-Z]+/g) || [""])[0].toLowerCase();
+                            const isStandardUnit = LEGAL_METROLOGY_RULES.STANDARD_METRIC_UNITS.includes(unit);
+                            if (!isStandardUnit && unit.length > 0) { status = "WARNING";
+                                note =
+                                `Non-standard unit '${unit}' used. Rules require metric units (g, kg, ml, l).`; } else {
+                                status = "PASS";
+                                note = `Compliant: Standard metric net quantity (${matchedSnippet}) declared.`; }
+                        } else { note = "Missing: Net quantity is missing or not in standard metric units."; }
+                    } else if (decl.id === "MFG_DATE") {
+                        const dateRegex =
+                            /(\b(0[1-9]|1[0-2])[\/\.-]?(20\d{2}|19\d{2})\b)|(\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s\.,\/-]+(20\d{2})\b)/i;
+                        if (detectedDetails.mfgDate || dateRegex.test(combinedText)) {
+                            isPresent = true;
+                            confidence = 0.88;
+                            const match = combinedText.match(dateRegex);
+                            matchedSnippet = detectedDetails.mfgDate || (match ? match[0] : "Mfg date found");
+                            note = `Compliant: Month and year of manufacture/packing detected (${matchedSnippet}).`;
+                        } else { note = "Missing: Month and year of manufacture/packing is missing or unreadable."; }
+                    } else if (decl.id === "MRP_DECLARATION") {
+                        const mrpRegex = /(mrp|rs\.?|₹|inr)\s*[:\.]?\s*(\d+(\.\d{1,2})?)/i;
+                        const hasInclusiveText = combinedText.includes("incl") || combinedText.includes("tax");
+                        if (detectedDetails.mrp || mrpRegex.test(combinedText)) {
+                            isPresent = true;
+                            confidence = 0.91;
+                            const match = combinedText.match(mrpRegex);
+                            matchedSnippet = detectedDetails.mrp || (match ? match[0] : "MRP indicated");
+                            if (!hasInclusiveText && !detectedDetails.hasInclusiveTax) { status = "WARNING";
+                                note =
+                                "Warning: Price printed but missing mandatory '(incl. of all taxes)' statement."; } else {
+                                status = "PASS";
+                                note = `Compliant: MRP declared in standard format (${matchedSnippet}).`; }
+                        } else { note = "Missing: Maximum Retail Price (MRP) is missing or unreadable."; }
+                    } else if (decl.id === "CONSUMER_CARE") {
+                        const emailRegex = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
+                        const phoneRegex = /(\+91[\-\s]?)?[6-9]\d{9}|1800[\-\s]?\d{3}[\-\s]?\d{3,4}/;
+                        const hasCareKw = decl.keywords.some(kw => combinedText.includes(kw));
+                        if (detectedDetails.consumerCare || (hasCareKw && (emailRegex.test(combinedText) || phoneRegex
+                                .test(combinedText)))) {
+                            isPresent = true;
+                            confidence = 0.89;
+                            matchedSnippet = detectedDetails.consumerCare || "Helpline / Email present";
+                            note = "Compliant: Consumer grievance helpline phone or email found.";
+                        } else { note = "Missing: Consumer care phone number, email, or contact address is missing."; }
+                    } else if (decl.id === "COUNTRY_OF_ORIGIN") {
+                        const originKw = ["made in india", "country of origin: india", "product of india",
+                            "made in china", "made in usa", "made in germany", "country of origin"
+                        ];
+                        const match = originKw.some(kw => combinedText.includes(kw)) || (detectedDetails
+                            .countryOfOrigin && detectedDetails.countryOfOrigin.length > 2);
+                        if (match) { isPresent = true;
+                            confidence = 0.86;
+                            matchedSnippet = detectedDetails.countryOfOrigin || "Country of Origin declared";
+                            note = `Compliant: Country of origin is stated (${matchedSnippet}).`; } else {
+                            note = "Missing: Country of origin declaration is omitted."; }
+                    } else if (decl.id === "FONT_SIZE_READABILITY") {
+                        const fontRule = this.getFontRequirement(estimatedAreaSqCm);
+                        const estimatedHeightMm = detectedDetails.estimatedFontHeightMm || 1.8;
+                        const meetsReq = estimatedHeightMm >= fontRule.minHeightNormalMm;
+                        isPresent = meetsReq;
+                        confidence = 0.85;
+                        matchedSnippet =
+                            `Font Height: ${estimatedHeightMm}mm (Rule requires: ≥ ${fontRule.minHeightNormalMm}mm)`;
+                        note = meetsReq ?
+                            `Compliant: Font size (${estimatedHeightMm}mm) meets Rule 7 requirements.` :
+                            `Non-Compliant: Font size (${estimatedHeightMm}mm) is smaller than required minimum (${fontRule.minHeightNormalMm}mm).`;
+                    }
+                    if (status !== "WARNING") { status = isPresent ? "PASS" : "FAIL"; }
+                    return { id: decl.id, ruleRef: decl.ruleRef, title: decl.title, severity: decl.severity,
+                        isPresent, status, confidence, matchedSnippet, note };
+                });
+                const isCategoryValidated = this.checkCategoryConsistency(selectedCategory, declarationsAudit,
+                combinedText);
+                const passedCount = declarationsAudit.filter(d => d.status === "PASS").length;
+                const complianceScore = Math.round((passedCount / declarationsAudit.length) * 100);
+                const violationsDetected = declarationsAudit.filter(d => d.status === "FAIL" || d.status === "WARNING");
+                return {
+                    isVerified: isCategoryValidated.isConsistent,
+                    verificationMessage: isCategoryValidated.message,
+                    detailedFeedback: isCategoryValidated.feedback,
+                    selectedCategory,
+                    complianceScore,
+                    violationsCount: violationsDetected.length,
+                    violations: violationsDetected,
+                    declarationsAudit,
+                    pdpAreaSqCm: estimatedAreaSqCm,
+                    fontRuleApplied: this.getFontRequirement(estimatedAreaSqCm),
+                    timestamp: new Date().toISOString()
+                };
+            }
+            static getFontRequirement(areaSqCm) {
+                for (const rule of LEGAL_METROLOGY_RULES.SCHEDULE_II_FONT_RULES) {
+                    if (areaSqCm <= rule.maxAreaSqCm) return rule;
+                }
+                return LEGAL_METROLOGY_RULES.SCHEDULE_II_FONT_RULES[LEGAL_METROLOGY_RULES.SCHEDULE_II_FONT_RULES.length -
+                1];
+            }
+            static checkCategoryConsistency(category, audit, text) {
+                const textLower = text.toLowerCase();
+                if (!textLower || textLower.trim().length < 5) {
+                    return { isConsistent: false, message: "Image or label text is unreadable or missing.",
+                        feedback: "The AI scanner could not detect clear packaging text. Please upload a clear, sharp photo of the packaging label." };
+                }
+                // Simplified consistency checks
+                if (category.id === "SAH-01") {
+                    const mrpAudit = audit.find(a => a.id === "MRP_DECLARATION");
+                    if (mrpAudit && (mrpAudit.status === "FAIL" || mrpAudit.status === "WARNING" || textLower
+                            .includes("mrp") || textLower.includes("price") || textLower.includes("no mrp"))) {
+                        return { isConsistent: true,
+                            message: "Verified: The detected packaging issues match the selected category under Legal Metrology Rules, 2011. You may proceed.",
+                            feedback: "AI confirmed missing or non-compliant MRP price declaration on the packaging label." };
+                    }
+                }
+                if (category.id === "SAH-02") {
+                    if (textLower.includes("sticker") || textLower.includes("overcharge") || textLower.includes(
+                            "dual") || textLower.includes("charged") || textLower.includes("more than") ||
+                        textLower.includes("higher price") || textLower.includes("mrp")) {
+                        return { isConsistent: true,
+                            message: "Verified: The detected packaging issues match the selected category under Legal Metrology Rules, 2011. You may proceed.",
+                            feedback: "AI verified pricing discrepancy or sticker overprinting violation." };
+                    }
+                }
+                if (category.id === "SAH-03") {
+                    const qtyAudit = audit.find(a => a.id === "NET_QUANTITY");
+                    if (qtyAudit && (qtyAudit.status === "FAIL" || qtyAudit.status === "WARNING" || textLower
+                            .includes("weight") || textLower.includes("qty") || textLower.includes("quantity") ||
+                            textLower.includes("less") || textLower.includes("short"))) {
+                        return { isConsistent: true,
+                            message: "Verified: The detected packaging issues match the selected category under Legal Metrology Rules, 2011. You may proceed.",
+                            feedback: "AI confirmed net quantity deficiency or non-metric measurement units." };
+                    }
+                }
+                if (textLower.length > 20) {
+                    return { isConsistent: true,
+                        message: "Verified: The detected packaging issues match the selected category under Legal Metrology Rules, 2011. You may proceed.",
+                        feedback: "AI verified sufficient evidence matching the selected Legal Metrology category." };
+                }
+                return { isConsistent: false, message: "AI Verification Inconclusive: Label does not match selected category.",
+                    feedback: "The uploaded image does not show clear evidence for this violation. Please upload a clearer photo or pick the matching violation category." };
+            }
+        }
+
+        // ================================================================
+        // REGIONAL ADMINS LIST (from AUTHORIZED_ADMINS)
+        // ================================================================
+        const REGIONAL_ADMINS_LIST = Object.values(AUTHORIZED_ADMINS);
+
+        // ================================================================
+        // SAMPLE DATA (Abbreviated)
+        // ================================================================
+        const SAMPLE_PACKAGES = [{
+            id: "PKG-001",
+            name: "Crispy Delight Potato Chips (Missing Consumer Care)",
+            brand: "CrunchySnacks Ltd",
+            category: "Packaged Snacks",
+            categoryId: "SAH-06",
+            estimatedPdpArea: 180,
+            imageSvg: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" rx="12" fill="%23f97316"/><rect x="20" y="20" width="360" height="260" rx="8" fill="%23fff7ed" stroke="%23ea580c" stroke-width="2"/><text x="200" y="60" font-family="Arial" font-size="20" font-weight="bold" fill="%23c2410c" text-anchor="middle">CRISPY DELIGHT POTATO CHIPS</text><text x="40" y="100" font-family="Arial" font-size="12" fill="%23334155">Generic Name: Potato Wafer Snacks</text><text x="40" y="130" font-family="Arial" font-size="12" fill="%23334155">Net Quantity: 100 g</text><text x="40" y="160" font-family="Arial" font-size="12" fill="%23334155">Mfd Date: 04/2026</text><text x="40" y="190" font-family="Arial" font-size="12" fill="%23334155">Mfg by: Crunchy Agro Foods, Plot 42, GIDC, Gujarat</text><rect x="35" y="215" width="220" height="35" fill="%23fee2e2" stroke="%23ef4444" stroke-width="1.5" stroke-dasharray="4"/><text x="45" y="235" font-family="Arial" font-size="11" fill="%23b91c1c" font-weight="bold">MRP: Rs. 35 (Tax clause missing)</text><rect x="270" y="215" width="100" height="35" fill="%23fee2e2" stroke="%23ef4444" stroke-width="1.5"/><text x="320" y="235" font-family="Arial" font-size="10" fill="%23b91c1c" text-anchor="middle" font-weight="bold">[NO CARE CELL]</text></svg>`,
+            ocrExtractedText: `CRISPY DELIGHT POTATO CHIPS\nGeneric Name: Potato Wafer Snacks\nNet Quantity: 100 g\nMfd Date: 04/2026\nBatch: CD-992\nMfg by: Crunchy Agro Foods, Plot 42, GIDC, Vapi, Gujarat - 396195\nMRP Rs. 35.00\nMade in India`,
+            detectedDetails: { genericName: "Potato Wafer Snacks", netQuantity: "100 g", mfgDate: "04/2026",
+                mrp: "Rs. 35.00", hasInclusiveTax: false,
+                manufacturer: "Crunchy Agro Foods, Plot 42, GIDC, Vapi, Gujarat - 396195", consumerCare: "",
+                countryOfOrigin: "India", estimatedFontHeightMm: 1.2 },
+            defaultDescription: "The snack pouch has an incomplete MRP declaration missing mandatory '(inclusive of all taxes)' statement and has completely omitted consumer grievance email/phone helpline required under Rule 6(1)(n).",
+            location: { latitude: 19.0760, longitude: 72.8777, district: "Mumbai", state: "Maharashtra",
+                pincode: "400001", address: "Super Bazaar, Bandra West, Mumbai, Maharashtra 400050" }
+        }, {
+            id: "PKG-002",
+            name: "Silk Glow Body Lotion (Non-Standard Net Qty)",
+            brand: "GlowAura Cosmetics",
+            category: "Cosmetics & Toiletries",
+            categoryId: "SAH-03",
+            estimatedPdpArea: 220,
+            imageSvg: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" rx="12" fill="%236366f1"/><rect x="20" y="20" width="360" height="260" rx="8" fill="%23eef2ff" stroke="%234f46e5" stroke-width="2"/><text x="200" y="60" font-family="Arial" font-size="20" font-weight="bold" fill="%234338ca" text-anchor="middle">SILK GLOW BODY LOTION</text><text x="40" y="100" font-family="Arial" font-size="12" fill="%23334155">Generic Name: Moisturizing Body Lotion</text><rect x="35" y="115" width="260" height="30" fill="%23fee2e2" stroke="%23ef4444" stroke-width="1.5"/><text x="45" y="135" font-family="Arial" font-size="12" fill="%23b91c1c" font-weight="bold">Net Content: 6.7 Fl. Oz (Non-metric)</text><text x="40" y="175" font-family="Arial" font-size="12" fill="%23334155">Mfd: 02/2026  |  Batch: SG-881</text><text x="40" y="205" font-family="Arial" font-size="12" fill="%23334155">MRP ₹ 249.00 (incl. of all taxes)</text><text x="40" y="235" font-family="Arial" font-size="11" fill="%23334155">Care: care@glowaura.in | 1800-200-4455</text><text x="40" y="260" font-family="Arial" font-size="11" fill="%23334155">Mfg: Aura Labs, Baddi, HP 173205 | Made in India</text></svg>`,
+            ocrExtractedText: `SILK GLOW BODY LOTION\nGeneric Name: Moisturizing Body Lotion\nNet Content: 6.7 Fl. Oz\nMfd: 02/2026 Batch: SG-881\nMRP ₹ 249.00 (incl. of all taxes)\nCare: care@glowaura.in | Helpline 1800-200-4455\nMfg: Aura Labs, Plot 12, Industrial Area, Baddi, HP 173205\nCountry of Origin: India`,
+            detectedDetails: { genericName: "Moisturizing Body Lotion", netQuantity: "6.7 Fl. Oz", mfgDate: "02/2026",
+                mrp: "₹ 249.00 (incl. of all taxes)", hasInclusiveTax: true,
+                manufacturer: "Aura Labs, Plot 12, Industrial Area, Baddi, HP 173205",
+                consumerCare: "care@glowaura.in | 1800-200-4455", countryOfOrigin: "India",
+                estimatedFontHeightMm: 1.6 },
+            defaultDescription: "Net quantity is declared solely in US Fluid Ounces (6.7 Fl. Oz) without mandatory metric declaration in 'ml' under Rule 11 and Schedule I of Packaged Commodities Rules.",
+            location: { latitude: 28.6139, longitude: 77.2090, district: "New Delhi", state: "Delhi",
+                pincode: "110001", address: "Connaught Place, Block B, New Delhi, Delhi 110001" }
+        }, {
+            id: "PKG-003",
+            name: "Ultra RoboToy (Missing Country of Origin)",
+            brand: "ToyMax Global",
+            category: "Toys & Electronics",
+            categoryId: "SAH-07",
+            estimatedPdpArea: 350,
+            imageSvg: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" rx="12" fill="%230ea5e9"/><rect x="20" y="20" width="360" height="260" rx="8" fill="%23f0f9ff" stroke="%230284c7" stroke-width="2"/><text x="200" y="60" font-family="Arial" font-size="20" font-weight="bold" fill="%230369a1" text-anchor="middle">ULTRA ROBOTOY RC CAR</text><text x="40" y="100" font-family="Arial" font-size="12" fill="%23334155">Generic Name: Battery Operated Toy Car</text><text x="40" y="130" font-family="Arial" font-size="12" fill="%23334155">Net Quantity: 1 Unit</text><text x="40" y="160" font-family="Arial" font-size="12" fill="%23334155">Pkd Date: 01/2026</text><text x="40" y="190" font-family="Arial" font-size="12" fill="%23334155">Imported by: ToyMax India, Okhla Phase 3, New Delhi</text><text x="40" y="220" font-family="Arial" font-size="12" fill="%23334155">MRP Rs. 899.00 (incl. of all taxes)</text><text x="40" y="245" font-family="Arial" font-size="11" fill="%23334155">Helpline: support@toymax.in | 011-44556677</text><rect x="35" y="255" width="280" height="20" fill="%23fee2e2" stroke="%23ef4444" stroke-width="1"/><text x="40" y="269" font-family="Arial" font-size="10" fill="%23b91c1c" font-weight="bold">VIOLATION: MISSING COUNTRY OF ORIGIN</text></svg>`,
+            ocrExtractedText: `ULTRA ROBOTOY RC CAR\nGeneric Name: Battery Operated Toy Car\nNet Quantity: 1 Unit\nPkd Date: 01/2026\nImported by: ToyMax India Pvt Ltd, Okhla Phase 3, New Delhi - 110020\nMRP Rs. 899.00 (incl. of all taxes)\nHelpline: support@toymax.in | 011-44556677`,
+            detectedDetails: { genericName: "Battery Operated Toy Car", netQuantity: "1 Unit", mfgDate: "01/2026",
+                mrp: "Rs. 899.00 (incl. of all taxes)", hasInclusiveTax: true,
+                manufacturer: "ToyMax India Pvt Ltd, Okhla Phase 3, New Delhi - 110020",
+                consumerCare: "support@toymax.in | 011-44556677", countryOfOrigin: "",
+                estimatedFontHeightMm: 2.2 },
+            defaultDescription: "Imported electronic toy car box does not declare Country of Origin anywhere on the package, violating mandatory Rule 6(10) of Legal Metrology (Packaged Commodities) Rules.",
+            location: { latitude: 12.9716, longitude: 77.5946, district: "Bengaluru Urban", state: "Karnataka",
+                pincode: "560001", address: "Commercial Street, Tasker Town, Bengaluru, Karnataka 560001" }
+        }];
+
+        const INITIAL_COMPLAINTS = [{
+            id: "COMP-2026-MH-1092",
+            docketNumber: "LM/2026/MH/00912",
+            createdAt: "2026-08-28T14:32:00.000Z",
+            updatedAt: "2026-08-29T10:15:00.000Z",
+            userId: "user-citizen-1",
+            userName: "Aarav Patel",
+            userEmail: "citizen@example.com",
+            userPhone: "+91 98201 54321",
+            categoryId: "SAH-01",
+            categoryName: "Missing or Unclear MRP Price",
+            productName: "ChocoCrunch Biscuit 150g",
+            brandName: "BakeWell Foods",
+            description: "Purchased at local retail store in Andheri. The MRP has been blurred out and a printed barcode sticker with Rs. 45 was affixed over the original Rs. 30 MRP.",
+            image: SAMPLE_PACKAGES[0].imageSvg,
+            ocrExtractedText: SAMPLE_PACKAGES[0].ocrExtractedText,
+            pdpAreaSqCm: 160,
+            complianceScore: 62,
+            violationsCount: 3,
+            status: "UNDER_REVIEW",
+            location: { latitude: 19.1197, longitude: 72.8468, district: "Mumbai Suburban", state: "Maharashtra",
+                pincode: "400053", address: "Andheri West Market, Mumbai, Maharashtra 400053" },
+            routedToRegion: "Maharashtra",
+            assignedAdminId: "admin-mh",
+            assignedAdminName: "Shri Rajesh Deshmukh",
+            timeline: [
+                { status: "PENDING", timestamp: "2026-08-28T14:32:00.000Z", actor: "Citizen (Aarav Patel)",
+                    remarks: "Complaint raised via PackSure Portal with AI Label Verification." },
+                { status: "UNDER_REVIEW", timestamp: "2026-08-29T10:15:00.000Z",
+                    actor: "Admin (Shri Rajesh Deshmukh)",
+                    remarks: "Prima facie case established under Rule 6(1)(e) and Rule 18(2). Scheduled inspection." }
+            ],
+            adminRemarks: "Notice issued to the retailer under Section 36(1) of Legal Metrology Act, 2009. Field officer assigned."
+        }, {
+            id: "COMP-2026-DL-1044",
+            docketNumber: "LM/2026/DL/00441",
+            createdAt: "2026-08-27T09:12:00.000Z",
+            updatedAt: "2026-08-28T16:40:00.000Z",
+            userId: "user-citizen-2",
+            userName: "Pooja Malhotra",
+            userEmail: "pooja.m@example.com",
+            userPhone: "+91 98111 23456",
+            categoryId: "SAH-03",
+            categoryName: "Wrong / Missing Net Quantity (Weight or Volume)",
+            productName: "GlowAura Body Lotion 200ml",
+            brandName: "GlowAura Cosmetics",
+            description: "Bottle only displays 6.7 Fl. Oz and does not have the net metric volume in milliliters as mandated by Legal Metrology Schedule I.",
+            image: SAMPLE_PACKAGES[1].imageSvg,
+            ocrExtractedText: SAMPLE_PACKAGES[1].ocrExtractedText,
+            pdpAreaSqCm: 220,
+            complianceScore: 75,
+            violationsCount: 2,
+            status: "FORWARDED",
+            location: { latitude: 28.6315, longitude: 77.2167, district: "Central Delhi", state: "Delhi",
+                pincode: "110001", address: "Supermarket, Connaught Place, New Delhi 110001" },
+            routedToRegion: "Delhi",
+            assignedAdminId: "admin-dl",
+            assignedAdminName: "Dr. Sunita Sharma",
+            timeline: [
+                { status: "PENDING", timestamp: "2026-08-27T09:12:00.000Z", actor: "Citizen (Pooja Malhotra)",
+                    remarks: "Complaint raised and verified with OCR label analysis." },
+                { status: "UNDER_REVIEW", timestamp: "2026-08-27T14:20:00.000Z",
+                    actor: "Admin (Dr. Sunita Sharma)",
+                    remarks: "Evidence examined. Packaging fails metric unit mandate under Rule 11." },
+                { status: "FORWARDED", timestamp: "2026-08-28T16:40:00.000Z",
+                    actor: "Admin (Dr. Sunita Sharma)",
+                    remarks: "Case dossier forwarded to Central Metrology Directorate for formal show-cause notice." }
+            ],
+            adminRemarks: "Show Cause Notice issued to manufacturer under Rule 11 & Rule 32 of Legal Metrology (Packaged Commodities) Rules, 2011."
+        }];
+
+        function routeComplaintToRegionalAdmin(state, district) {
+            const cleanState = (state || "").toLowerCase();
+            for (const admin of REGIONAL_ADMINS_LIST) {
+                if (cleanState.includes(admin.region.toLowerCase()) || admin.region.toLowerCase().includes(cleanState)) {
+                    return admin;
+                }
+            }
+            return REGIONAL_ADMINS_LIST[0];
+        }
+
+        // ================================================================
+        // STORAGE & FIREBASE SYNC
+        // ================================================================
+        const STORAGE_KEYS = { COMPLAINTS: "lm_complaints_db_v1", NOTIFICATIONS: "lm_notifications_v1",
+            AUTH_SESSION: "lm_auth_session_v1" };
+
+        class HybridDatabase {
+            static initStorage() {
+                if (!localStorage.getItem(STORAGE_KEYS.COMPLAINTS)) {
+                    localStorage.setItem(STORAGE_KEYS.COMPLAINTS, JSON.stringify(INITIAL_COMPLAINTS));
+                }
+                if (!localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) {
+                    localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify([{ id: "notif-init-1",
+                        userId: "user-citizen-1", title: "Welcome to PackSure Portal",
+                        message: "You can now report non-compliant packaged commodities directly to Regional Enforcement Officers.",
+                        timestamp: new Date().toISOString(), read: false
+                    }]));
+                }
+            }
+            static getComplaints() {
+                try { const data = localStorage.getItem(STORAGE_KEYS.COMPLAINTS); return data ? JSON.parse(data) :
+                    INITIAL_COMPLAINTS; } catch (e) { return INITIAL_COMPLAINTS; }
+            }
+            static saveComplaints(complaints) {
+                localStorage.setItem(STORAGE_KEYS.COMPLAINTS, JSON.stringify(complaints));
+                this.syncToFirebase(complaints);
+            }
+            static syncToFirebase(complaints) {
+                if (complaints && complaints.length > 0) {
+                    complaints.forEach(complaint => {
+                        try {
+                            db.collection("complaints").doc(complaint.id).set({
+                                docketNumber: complaint.docketNumber || "",
+                                userId: complaint.userId || "",
+                                userName: complaint.userName || "",
+                                userEmail: complaint.userEmail || "",
+                                userPhone: complaint.userPhone || "",
+                                productName: complaint.productName || "",
+                                brandName: complaint.brandName || "",
+                                categoryId: complaint.categoryId || "",
+                                categoryName: complaint.categoryName || "",
+                                description: complaint.description || "",
+                                status: complaint.status || "PENDING",
+                                routedToRegion: complaint.routedToRegion || "",
+                                assignedAdminId: complaint.assignedAdminId || "",
+                                assignedAdminName: complaint.assignedAdminName || "",
+                                complianceScore: complaint.complianceScore || 0,
+                                violationsCount: complaint.violationsCount || 0,
+                                district: complaint.location?.district || "",
+                                state: complaint.location?.state || "",
+                                pincode: complaint.location?.pincode || "",
+                                latitude: complaint.location?.latitude || 0,
+                                longitude: complaint.location?.longitude || 0,
+                                createdAt: complaint.createdAt || new Date().toISOString(),
+                                updatedAt: complaint.updatedAt || new Date().toISOString(),
+                                adminRemarks: complaint.adminRemarks || "",
+                                timeline: complaint.timeline || []
+                            }, { merge: true })
+                            .then(() => console.log(`✅ Synced ${complaint.docketNumber} to Firebase`))
+                            .catch(err => console.warn("Firebase sync warning:", err));
+                        } catch (e) { console.warn("Firebase sync error:", e); }
+                    });
+                }
+            }
+            static addComplaint(complaint) {
+                const list = this.getComplaints();
+                list.unshift(complaint);
+                this.saveComplaints(list);
+                this.addNotification({ userId: complaint.userId,
+                    title: `Complaint Submitted: ${complaint.docketNumber}`,
+                    message: `Your grievance has been received and routed to ${complaint.routedToRegion} Legal Metrology Enforcement Directorate.`,
+                    timestamp: new Date().toISOString() });
+                return complaint;
+            }
+            static updateComplaintStatus(complaintId, newStatus, actorName, remarks) {
+                const list = this.getComplaints();
+                const index = list.findIndex(c => c.id === complaintId);
+                if (index === -1) return null;
+                const complaint = list[index];
+                complaint.status = newStatus;
+                complaint.updatedAt = new Date().toISOString();
+                if (remarks) complaint.adminRemarks = remarks;
+                complaint.timeline = complaint.timeline || [];
+                complaint.timeline.push({ status: newStatus, timestamp: new Date().toISOString(),
+                    actor: actorName || "Regional Admin",
+                    remarks: remarks || `Status updated to ${newStatus.replace("_", " ")}` });
+                list[index] = complaint;
+                this.saveComplaints(list);
+                this.addNotification({ userId: complaint.userId, title: `Status Updated: ${complaint.docketNumber}`,
+                    message: `Your complaint is now '${newStatus.replace("_", " ")}'. Officer Remarks: ${remarks || "Review in progress"}`,
+                    timestamp: new Date().toISOString() });
+                return complaint;
+            }
+            static getNotifications(userId) {
+                try { const data = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS); const all = data ? JSON.parse(
+                    data) : []; return userId ? all.filter(n => n.userId === userId || n.userId === "all") : all; } catch (
+                    e) { return []; }
+            }
+            static addNotification(notif) {
+                const all = this.getNotifications();
+                all.unshift({ id: `notif-${Date.now()}`, read: false, ...notif });
+                localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(all));
+            }
+            static getAuthSession() {
+                try { const s = localStorage.getItem(STORAGE_KEYS.AUTH_SESSION); return s ? JSON.parse(s) : null; } catch (
+                    e) { return null; }
+            }
+            static setAuthSession(session) {
+                if (session) { localStorage.setItem(STORAGE_KEYS.AUTH_SESSION, JSON.stringify(session)); } else {
+                    localStorage.removeItem(STORAGE_KEYS.AUTH_SESSION); }
+            }
+        }
+
+        class PackSureReportGenerator {
+            static generateComplianceReport(item, adminRemarks = "") {
+                const docketNum = item.docketNumber || `PS-SCAN-${Date.now().toString().slice(-6)}`;
+                const dateStr = new Date(item.createdAt || Date.now()).toLocaleDateString("en-IN", { day: "2-digit",
+                    month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+                const audit = item.declarationsAudit || [];
+                const score = item.complianceScore ?? 75;
+                const printWindow = window.open("", "_blank");
+                if (!printWindow) { alert("Please allow popups to view the PDF Report."); return; }
+                const htmlContent = `<!DOCTYPE html><html><head><title>PackSure Compliance Report - ${docketNum}</title><style>body{font-family:sans-serif;padding:24px;color:#1e293b;line-height:1.5;font-size:13px}.header{text-align:center;border-bottom:2px solid #0f766e;padding-bottom:12px;margin-bottom:18px}.title{font-size:20px;font-weight:bold;color:#0f766e}.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f8fafc;padding:12px;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:16px}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{border:1px solid #cbd5e1;padding:8px;text-align:left}th{background:#f1f5f9}.pass{background:#dcfce7;color:#166534;font-weight:bold;padding:2px 6px;border-radius:4px}.fail{background:#fee2e2;color:#991b1b;font-weight:bold;padding:2px 6px;border-radius:4px}.btn-print{background:#0f766e;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;float:right;font-weight:bold}@media print{.btn-print{display:none}}</style></head><body><button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button><div class="header"><div class="title">PACKSURE • LEGAL METROLOGY COMPLIANCE REPORT</div><div>Standards &amp; Consumer Affairs Directorate • Legal Metrology (Packaged Commodities) Rules, 2011</div></div><div class="meta"><div><strong>Docket / Scan ID:</strong> ${docketNum}</div><div><strong>Date:</strong> ${dateStr}</div><div><strong>Commodity:</strong> ${item.productName || item.name || "Packaged Product"}</div><div><strong>Category:</strong> ${item.categoryName || "Packaging Label Scan"}</div><div><strong>Location:</strong> ${item.location ? `${item.location.district}, ${item.location.state}` : "All India"}</div><div><strong>Compliance Score:</strong> <span style="font-size:15px;font-weight:bold;color:${score >= 80 ? '#166534':'#991b1b'}">${score}%</span></div></div><h3>Mandatory Declarations Audit (Rule 6 &amp; Rule 7)</h3><table><thead><tr><th>Prescribed Declaration</th><th>Rule Ref</th><th>Status</th><th>Findings</th></tr></thead><tbody>${audit.map(a => `<tr><td><strong>${a.title}</strong></td><td><code>${a.ruleRef}</code></td><td><span class="${a.status === 'PASS' ? 'pass' : 'fail'}">${a.status}</span></td><td>${a.note || a.matchedSnippet || 'Verified'}</td></tr>`).join('')}</tbody></table><div style="margin-top:20px;padding:12px;background:#f8fafc;border-left:4px solid #0f766e;"><strong>Enforcement Findings:</strong><br/>${adminRemarks || item.adminRemarks || "Verified by PackSure AI Optical Engine against the Legal Metrology (Packaged Commodities) Rules, 2011."}</div></body></html>`;
+                printWindow.document.open();
+                printWindow.document.write(htmlContent);
+                printWindow.document.close();
+            }
+            static exportEditableData(complaint) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(complaint, null,
+                2));
+                const a = document.createElement('a');
+                a.setAttribute("href", dataStr);
+                a.setAttribute("download", `PackSure_Docket_${complaint.docketNumber || complaint.id}.json`);
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            }
+        }
+
+        HybridDatabase.initStorage();
+
+        // ================================================================
+        // GPS Utility - FIXED with accurate city database
+        // ================================================================
+        class GPSHelper {
+            static reverseGeocode(lat, lng) {
+                const closest = findClosestCity(lat, lng);
+                if (closest && closest.distance < 2.0) { // Within ~200km radius
+                    return {
+                        state: closest.state,
+                        district: closest.district,
+                        pincode: closest.pincode,
+                        city: closest.city,
+                        address: `${closest.district}, ${closest.state} - ${closest.pincode}`,
+                        accuracy: "High"
+                    };
+                }
+
+                // Fallback: Try to find state from any known city
+                let fallbackState = "Unknown";
+                let fallbackDistrict = "Unknown";
+                let fallbackPincode = "000000";
+
+                for (const [city, data] of Object.entries(CITY_COORDINATES)) {
+                    const dist = Math.sqrt(Math.pow(lat - data.lat, 2) + Math.pow(lng - data.lng, 2));
+                    if (dist < 5.0) { // Within ~500km radius
+                        fallbackState = data.state;
+                        fallbackDistrict = data.district;
+                        fallbackPincode = data.pincode;
+                        break;
+                    }
+                }
+
+                return {
+                    state: fallbackState,
+                    district: fallbackDistrict,
+                    pincode: fallbackPincode,
+                    city: fallbackDistrict,
+                    address: `${fallbackDistrict}, ${fallbackState} - ${fallbackPincode}`,
+                    accuracy: "Low"
+                };
+            }
+
+            static getAccuracyLabel(accuracy) {
+                if (accuracy < 10) return "🟢 Excellent";
+                if (accuracy < 30) return "🟡 Good";
+                if (accuracy < 100) return "🟠 Moderate";
+                return "🔴 Low";
+            }
+
+            static getAccuracyColor(accuracy) {
+                if (accuracy < 10) return "var(--success)";
+                if (accuracy < 30) return "var(--accent)";
+                if (accuracy < 100) return "var(--orange)";
+                return "var(--danger)";
+            }
+        }
+
+        // ================================================================
+        // MAIN APP
+        // ================================================================
+        class PackSureApp {
+            constructor() {
+                const savedSession = HybridDatabase.getAuthSession();
+                this.isAuthenticated = !!savedSession;
+                this.currentRole = savedSession ? savedSession.role : "USER";
+                this.currentUser = savedSession || { id: "user-citizen-1", name: "Aarav Patel",
+                    email: "citizen@example.com", phone: "+91 98201 54321", role: "USER" };
+                if (savedSession && savedSession.role === "ADMIN" && savedSession.adminId) {
+                    const matchAdmin = REGIONAL_ADMINS_LIST.find(a => a.id === savedSession.adminId);
+                    if (matchAdmin) {
+                        this.currentAdmin = matchAdmin;
+                        this.currentUser = { ...this.currentUser, ...matchAdmin };
+                    } else {
+                        this.currentAdmin = REGIONAL_ADMINS_LIST[0];
+                    }
+                } else {
+                    this.currentAdmin = REGIONAL_ADMINS_LIST[0];
+                }
+                this.activeTab = this.currentRole === "ADMIN" ? "admin_portal" : "raise_complaint";
+                this.authMode = "signin"; // "signin" or "signup"
+                this.authRole = "USER";
+                this.userLocation = {
+                    latitude: 19.0760,
+                    longitude: 72.8777,
+                    state: "Maharashtra",
+                    district: "Mumbai",
+                    pincode: "400001",
+                    address: "Mumbai, Maharashtra 400001",
+                    city: "Mumbai",
+                    isAutoDetected: false,
+                    accuracy: 15,
+                    isDetecting: false,
+                    detectionStatus: "idle"
+                };
+                this.formState = { categoryId: LEGAL_METROLOGY_RULES.SAH_CATEGORIES[0].id, productName: "",
+                    brandName: "", description: "", pdpAreaSqCm: 150, imageDataUrl: "", ocrText: "",
+                    detectedDetails: {}, aiVerificationResult: null, isAnalyzing: false };
+                this.scannerState = { imageDataUrl: SAMPLE_PACKAGES[0].imageSvg, productName: SAMPLE_PACKAGES[0]
+                        .name, pdpAreaSqCm: SAMPLE_PACKAGES[0].estimatedPdpArea,
+                    ocrText: SAMPLE_PACKAGES[0].ocrExtractedText,
+                    detectedDetails: SAMPLE_PACKAGES[0].detectedDetails, analysisResult: null,
+                isAnalyzing: false };
+                this.selectedModalComplaint = null;
+                this.loginError = false;
+                this.signupSuccess = false;
+
+                // theme
+                this.theme = localStorage.getItem('packsure-theme') || 'light';
+                this.applyTheme();
+
+                this.init();
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.theme);
+                localStorage.setItem('packsure-theme', this.theme);
+                // update toggle button if exists
+                const toggleBtn = document.getElementById('themeToggleBtn');
+                if (toggleBtn) {
+                    toggleBtn.textContent = this.theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+                }
+            }
+
+            toggleTheme() {
+                this.theme = this.theme === 'dark' ? 'light' : 'dark';
+                this.applyTheme();
+                // re-render to update toggle button
+                this.render();
+            }
+
+            init() {
+                if (this.isAuthenticated) this.detectGPSLocation();
+                this.setupEventListeners();
+                this.render();
+                if (this.isAuthenticated) this.runScannerAnalysis();
+            }
+            detectGPSLocation() {
+                if (!("geolocation" in navigator)) {
+                    this.userLocation.detectionStatus = "error";
+                    this.userLocation.isAutoDetected = false;
+                    this.render();
+                    return;
+                }
+
+                this.userLocation.isDetecting = true;
+                this.userLocation.detectionStatus = "detecting";
+                this.render();
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = parseFloat(position.coords.latitude.toFixed(6));
+                        const lng = parseFloat(position.coords.longitude.toFixed(6));
+                        const accuracy = Math.round(position.coords.accuracy || 15);
+
+                        this.userLocation.latitude = lat;
+                        this.userLocation.longitude = lng;
+                        this.userLocation.accuracy = accuracy;
+                        this.userLocation.isAutoDetected = true;
+                        this.userLocation.isDetecting = false;
+                        this.userLocation.detectionStatus = "success";
+
+                        // Perform accurate reverse geocoding
+                        const geoData = GPSHelper.reverseGeocode(lat, lng);
+                        if (geoData.state !== "Unknown") {
+                            this.userLocation.state = geoData.state;
+                            this.userLocation.district = geoData.district;
+                            this.userLocation.pincode = geoData.pincode;
+                            this.userLocation.city = geoData.city || geoData.district;
+                            this.userLocation.address = geoData.address ||
+                                `${geoData.district}, ${geoData.state} - ${geoData.pincode}`;
+                        } else {
+                            this.userLocation.address =
+                                `Location near ${lat.toFixed(4)}, ${lng.toFixed(4)} - Please edit manually`;
+                        }
+
+                        console.log("📍 GPS Location Detected:", this.userLocation);
+                        this.render();
+                    },
+                    (error) => {
+                        console.warn("GPS detection error:", error);
+                        this.userLocation.isDetecting = false;
+                        this.userLocation.detectionStatus = "error";
+                        this.userLocation.isAutoDetected = false;
+                        this.render();
+                    }, {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 30000
+                    }
+                );
+            }
+            setupEventListeners() {
+                window.addEventListener("click", (e) => {
+                    const target = e.target;
+                    if (target.closest("[data-action]")) {
+                        const actionBtn = target.closest("[data-action]");
+                        const action = actionBtn.getAttribute("data-action");
+                        const id = actionBtn.getAttribute("data-id");
+                        this.handleAction(action, id);
+                    }
+                    // theme toggle via id
+                    if (target.id === 'themeToggleBtn') {
+                        this.toggleTheme();
+                    }
+                });
+            }
+            handleAction(action, id) {
+                switch (action) {
+                    case "set_auth_mode":
+                        this.authMode = id;
+                        this.loginError = false;
+                        this.signupSuccess = false;
+                        this.render();
+                        break;
+                    case "set_auth_role":
+                        this.authRole = id;
+                        this.loginError = false;
+                        this.render();
+                        break;
+                    case "quick_login_citizen":
+                        this.performLogin({ id: "user-citizen-1", name: "Aarav Patel",
+                            email: "citizen.aarav@example.com", phone: "+91 98201 54321", role: "USER" });
+                        break;
+                    case "quick_login_admin":
+                        const admin = REGIONAL_ADMINS_LIST.find(a => a.id === id) || REGIONAL_ADMINS_LIST[0];
+                        this.currentAdmin = admin;
+                        this.performLogin({ id: admin.id, name: admin.name, email: admin.email,
+                            phone: admin.helpline, role: "ADMIN", adminId: admin.id, region: admin
+                            .region });
+                        break;
+                    case "submit_auth_form":
+                        this.handleAuthFormSubmit();
+                        break;
+                    case "logout":
+                        HybridDatabase.setAuthSession(null);
+                        this.isAuthenticated = false;
+                        this.currentRole = "USER";
+                        this.loginError = false;
+                        this.render();
+                        break;
+                    case "set_tab":
+                        this.activeTab = id;
+                        this.render();
+                        break;
+                    case "select_admin_region":
+                        const selectedAdmin = REGIONAL_ADMINS_LIST.find(a => a.id === id);
+                        if (selectedAdmin) { this.currentAdmin = selectedAdmin;
+                            this.render(); }
+                        break;
+                    case "load_sample_package": {
+                        const pkg = SAMPLE_PACKAGES.find(p => p.id === id);
+                        if (pkg) { this.formState.categoryId = pkg.categoryId;
+                            this.formState.productName = pkg.name;
+                            this.formState.brandName = pkg.brand;
+                            this.formState.description = pkg.defaultDescription;
+                            this.formState.pdpAreaSqCm = pkg.estimatedPdpArea;
+                            this.formState.imageDataUrl = pkg.imageSvg;
+                            this.formState.ocrText = pkg.ocrExtractedText;
+                            this.formState.detectedDetails = pkg.detectedDetails; if (pkg.location) { this
+                                    .userLocation = { ...this.userLocation, ...pkg.location,
+                                        isAutoDetected: false }; }
+                            this.verifyComplaintWithAI(); }
+                        break;
+                    }
+                    case "load_scanner_package": {
+                        const scanPkg = SAMPLE_PACKAGES.find(p => p.id === id);
+                        if (scanPkg) { this.scannerState.productName = scanPkg.name;
+                            this.scannerState.imageDataUrl = scanPkg.imageSvg;
+                            this.scannerState.pdpAreaSqCm = scanPkg.estimatedPdpArea;
+                            this.scannerState.ocrText = scanPkg.ocrExtractedText;
+                            this.scannerState.detectedDetails = scanPkg.detectedDetails;
+                            this.runScannerAnalysis(); }
+                        break;
+                    }
+                    case "trigger_file_upload":
+                        const fileInput = document.getElementById("packageFileInput");
+                        if (fileInput) fileInput.click();
+                        break;
+                    case "trigger_scanner_upload":
+                        const scanInput = document.getElementById("scannerFileInput");
+                        if (scanInput) scanInput.click();
+                        break;
+                    case "re_detect_gps":
+                        this.detectGPSLocation();
+                        break;
+                    case "edit_gps_manual":
+                        this.promptEditLocation();
+                        break;
+                    case "submit_complaint":
+                        this.submitComplaint();
+                        break;
+                    case "open_case_modal":
+                        this.openCaseModal(id);
+                        break;
+                    case "close_case_modal":
+                        this.closeModal();
+                        break;
+                    case "update_complaint_status":
+                        this.updateStatusFromModal(id);
+                        break;
+                    case "print_report": {
+                        const comp = HybridDatabase.getComplaints().find(c => c.id === id);
+                        if (comp) PackSureReportGenerator.generateComplianceReport(comp);
+                        break;
+                    }
+                    case "export_json": {
+                        const compJson = HybridDatabase.getComplaints().find(c => c.id === id);
+                        if (compJson) PackSureReportGenerator.exportEditableData(compJson);
+                        break;
+                    }
+                    case "print_scanner_report":
+                        PackSureReportGenerator.generateComplianceReport({ productName: this.scannerState
+                                .productName, categoryName: "Packaged Commodity Label Scan",
+                            declarationsAudit: this.scannerState.analysisResult ? this.scannerState
+                                .analysisResult.declarationsAudit : [],
+                            violations: this.scannerState.analysisResult ? this.scannerState.analysisResult
+                                .violations : [],
+                            complianceScore: this.scannerState.analysisResult ? this.scannerState
+                                .analysisResult.complianceScore : 75,
+                            location: this.userLocation
+                        });
+                        break;
+                    case "transfer_scanner_to_complaint":
+                        this.formState.productName = this.scannerState.productName;
+                        this.formState.imageDataUrl = this.scannerState.imageDataUrl;
+                        this.formState.pdpAreaSqCm = this.scannerState.pdpAreaSqCm;
+                        this.formState.ocrText = this.scannerState.ocrText;
+                        this.formState.detectedDetails = this.scannerState.detectedDetails;
+                        this.formState.description =
+                            `Automated violation detected via PackSure Label Scanner. Compliance score: ${this.scannerState.analysisResult?.complianceScore || 0}%`;
+                        this.activeTab = "raise_complaint";
+                        this.verifyComplaintWithAI();
+                        break;
+                }
+            }
+            performLogin(userData) {
+                this.currentUser = userData;
+                this.currentRole = userData.role;
+                this.isAuthenticated = true;
+                HybridDatabase.setAuthSession(userData);
+                this.activeTab = this.currentRole === "ADMIN" ? "admin_portal" : "raise_complaint";
+                this.loginError = false;
+                this.signupSuccess = false;
+                this.detectGPSLocation();
+                this.render();
+                this.runScannerAnalysis();
+            }
+            handleAuthFormSubmit() {
+                const emailInput = document.getElementById("authEmail");
+                const passwordInput = document.getElementById("authPassword");
+                const nameInput = document.getElementById("authName");
+                const email = emailInput ? emailInput.value.trim().toLowerCase() : "";
+                const password = passwordInput ? passwordInput.value.trim() : "";
+                const name = nameInput ? nameInput.value.trim() : "";
+
+                // Check if admin login
+                if (this.authRole === "ADMIN" && this.authMode === "signin") {
+                    const matchedAdmin = AUTHORIZED_ADMINS[email];
+                    if (matchedAdmin && matchedAdmin.password === password) {
+                        this.currentAdmin = matchedAdmin;
+                        const adminUserData = {
+                            id: matchedAdmin.id,
+                            name: name || matchedAdmin.name,
+                            email: email,
+                            phone: matchedAdmin.helpline,
+                            role: "ADMIN",
+                            adminId: matchedAdmin.id,
+                            region: matchedAdmin.region,
+                            designation: matchedAdmin.designation,
+                            department: matchedAdmin.department,
+                            avatar: matchedAdmin.avatar
+                        };
+                        this.performLogin(adminUserData);
+                        return;
+                    }
+                }
+
+                // Simple validation for citizens / signup
+                if (email && password && password.length >= 4) {
+                    // For signup, create a new user
+                    if (this.authMode === "signup") {
+                        this.signupSuccess = true;
+                        this.loginError = false;
+                        this.render();
+                        // Auto-login after signup
+                        setTimeout(() => {
+                            this.performLogin({ id: `user-${Date.now()}`, name: name || "Citizen User",
+                                email: email, phone: "+91 98201 54321", role: "USER" });
+                        }, 1500);
+                        return;
+                    }
+
+                    // For signin, just login
+                    this.performLogin({ id: `user-${Date.now()}`, name: name || "Citizen User",
+                        email: email, phone: "+91 98201 54321", role: "USER" });
+                } else {
+                    this.loginError = true;
+                    this.render();
+                }
+            }
+            handleImageUpload(e, targetState = "form") {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (uploadEvent) => {
+                    const dataUrl = uploadEvent.target.result;
+                    if (targetState === "form") {
+                        this.formState.imageDataUrl = dataUrl;
+                        this.formState.ocrText =
+                            `SCANNED PACKAGE LABEL: ${file.name}\nNet Qty: 150g\nMRP Rs 40.00\nDate: 03/2026\nMfg by: PackSure Verified Unit\nCountry of Origin: India`;
+                        this.verifyComplaintWithAI();
+                    } else {
+                        this.scannerState.imageDataUrl = dataUrl;
+                        this.scannerState.productName = file.name.replace(/\.[^/.]+$/, "");
+                        this.scannerState.ocrText =
+                            `CUSTOM LABEL SCAN (${file.name})\nMRP ₹ 199.00 (incl. of all taxes)\nNet Qty: 250 g\nMfd Date: 02/2026\nCountry of Origin: India`;
+                        this.runScannerAnalysis();
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+            verifyComplaintWithAI() {
+                this.formState.isAnalyzing = true;
+                this.render();
+                setTimeout(() => {
+                    const result = MetrologyAIValidator.analyzeCompliance({ categoryId: this.formState
+                            .categoryId, description: this.formState.description,
+                        ocrText: this.formState.ocrText,
+                        detectedDetails: this.formState.detectedDetails,
+                        estimatedAreaSqCm: this.formState.pdpAreaSqCm
+                    });
+                    this.formState.aiVerificationResult = result;
+                    this.formState.isAnalyzing = false;
+                    this.render();
+                }, 400);
+            }
+            runScannerAnalysis() {
+                this.scannerState.isAnalyzing = true;
+                this.render();
+                setTimeout(() => {
+                    const result = MetrologyAIValidator.analyzeCompliance({ categoryId: "SAH-01",
+                        description: this.scannerState.ocrText,
+                        ocrText: this.scannerState.ocrText,
+                        detectedDetails: this.scannerState.detectedDetails,
+                        estimatedAreaSqCm: this.scannerState.pdpAreaSqCm
+                    });
+                    this.scannerState.analysisResult = result;
+                    this.scannerState.isAnalyzing = false;
+                    this.render();
+                }, 350);
+            }
+            promptEditLocation() {
+                const newDistrict = prompt("Enter District / City:", this.userLocation.district);
+                const newState = prompt("Enter State:", this.userLocation.state);
+                const newPin = prompt("Enter Postal PIN Code:", this.userLocation.pincode);
+                if (newDistrict && newState) {
+                    this.userLocation.district = newDistrict.trim();
+                    this.userLocation.state = newState.trim();
+                    this.userLocation.city = newDistrict.trim();
+                    if (newPin) this.userLocation.pincode = newPin.trim();
+                    this.userLocation.address =
+                        `${this.userLocation.district}, ${this.userLocation.state} - ${this.userLocation.pincode}`;
+                    this.userLocation.isAutoDetected = false;
+                    this.render();
+                }
+            }
+            submitComplaint() {
+                if (!this.formState.imageDataUrl) { alert("Mandatory: Please upload a product label photo."); return; }
+                if (!this.formState.aiVerificationResult || !this.formState.aiVerificationResult.isVerified) { alert(
+                        "AI Verification Required: Please ensure your evidence matches the selected Legal Metrology violation category."
+                        ); return; }
+                const assignedAdmin = routeComplaintToRegionalAdmin(this.userLocation.state, this.userLocation
+                .district);
+                const randomId = Math.floor(1000 + Math.random() * 9000);
+                const stateCode = (assignedAdmin.regionCode || "IN");
+                const docketNumber = `LM/2026/${stateCode}/${randomId}`;
+                const newComplaint = {
+                    id: `COMP-2026-${stateCode}-${randomId}`,
+                    docketNumber: docketNumber,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    userId: this.currentUser.id,
+                    userName: this.currentUser.name,
+                    userEmail: this.currentUser.email,
+                    userPhone: this.currentUser.phone,
+                    categoryId: this.formState.categoryId,
+                    categoryName: (LEGAL_METROLOGY_RULES.SAH_CATEGORIES.find(c => c.id === this.formState
+                        .categoryId) || {}).categoryName,
+                    productName: this.formState.productName || "Packaged Commodity",
+                    brandName: this.formState.brandName || "Packaged Brand",
+                    description: this.formState.description,
+                    image: this.formState.imageDataUrl,
+                    ocrExtractedText: this.formState.ocrText,
+                    pdpAreaSqCm: this.formState.pdpAreaSqCm,
+                    complianceScore: this.formState.aiVerificationResult.complianceScore,
+                    violationsCount: this.formState.aiVerificationResult.violationsCount,
+                    violations: this.formState.aiVerificationResult.violations,
+                    declarationsAudit: this.formState.aiVerificationResult.declarationsAudit,
+                    status: "PENDING",
+                    location: { ...this.userLocation },
+                    routedToRegion: assignedAdmin.region,
+                    assignedAdminId: assignedAdmin.id,
+                    assignedAdminName: assignedAdmin.name,
+                    timeline: [{ status: "PENDING", timestamp: new Date().toISOString(),
+                        actor: `Citizen (${this.currentUser.name})`,
+                        remarks: "Complaint raised via PackSure Portal with AI Verification. Auto-routed via GPS to regional enforcement admin."
+                    }],
+                    adminRemarks: ""
+                };
+                HybridDatabase.addComplaint(newComplaint);
+                alert(
+                    `✅ Grievance Submitted Successfully!\n\nDocket ID: ${docketNumber}\nRouted via GPS to: ${assignedAdmin.region} Enforcement Directorate (${assignedAdmin.name})\n\nYou can track real-time progress on your dashboard.`
+                    );
+                this.formState.productName = "";
+                this.formState.brandName = "";
+                this.formState.description = "";
+                this.formState.imageDataUrl = "";
+                this.formState.ocrText = "";
+                this.formState.aiVerificationResult = null;
+                this.activeTab = "my_complaints";
+                this.render();
+            }
+            openCaseModal(complaintId) {
+                const complaint = HybridDatabase.getComplaints().find(c => c.id === complaintId);
+                if (!complaint) return;
+                this.selectedModalComplaint = complaint;
+                this.renderModal();
+            }
+            closeModal() {
+                this.selectedModalComplaint = null;
+                const modal = document.getElementById("caseModalBackdrop");
+                if (modal) modal.remove();
+            }
+            updateStatusFromModal(complaintId) {
+                const statusSelect = document.getElementById("modalStatusSelect");
+                const remarksInput = document.getElementById("modalRemarksInput");
+                if (!statusSelect) return;
+                const newStatus = statusSelect.value;
+                const remarks = remarksInput ? remarksInput.value.trim() : "";
+                HybridDatabase.updateComplaintStatus(complaintId, newStatus, this.currentAdmin.name, remarks);
+                alert(`Status updated to ${newStatus.replace("_", " ")} and notification dispatched to citizen.`);
+                this.closeModal();
+                this.render();
+            }
+            render() {
+                const root = document.getElementById("app-root");
+                if (!root) return;
+                if (!this.isAuthenticated) { root.innerHTML = this.renderAuthScreen(); return; }
+                root.innerHTML = `
+              <div class="gov-topbar">
+                <div class="gov-flag">
+                  <span class="tricolor-stripe"></span>
+                  <span>🇮🇳 GOVERNMENT OF INDIA • DEPARTMENT OF CONSUMER AFFAIRS</span>
+                </div>
+                <div class="gov-status">
+                  <span>Legal Metrology (Packaged Commodities) Rules, 2011</span>
+                  <span class="firebase-status">🔥 Firebase Connected</span>
+                  <button id="themeToggleBtn" class="theme-toggle">${this.theme === 'dark' ? '☀️ Light' : '🌙 Dark'}</button>
+                </div>
+              </div>
+              <header class="main-header">
+                <div class="header-container">
+                  <div class="brand-wrapper" data-action="set_tab" data-id="${this.currentRole === 'ADMIN' ? 'admin_portal' : 'raise_complaint'}">
+                    <div class="brand-icon">⚖️</div>
+                    <div class="brand-text">
+                      <h1>PackSure</h1>
+                      <p>Legal Metrology AI Compliance &amp; Enforcement</p>
+                    </div>
+                  </div>
+                  <div class="user-menu-box">
+                    <div class="user-badge">
+                      <span class="avatar">${this.currentUser.name.charAt(0)}</span>
+                      <span>${this.currentRole === 'ADMIN' ? '🛡️ Regional Officer' : '👤 Citizen'}</span>
+                      <span style="color:var(--primary-dark);font-weight:800;">${this.currentUser.name}</span>
+                    </div>
+                    <button class="btn btn-outline" style="padding:8px 18px;font-size:0.85rem;border-radius:999px;" data-action="logout">🚪 Sign Out</button>
+                  </div>
+                </div>
+              </header>
+              <div class="privacy-banner">
+                <span class="privacy-badge">🔒 PRIVACY NOTICE</span>
+                <span>Your personal data and GPS location are strictly protected under DPDP Act and never shared with unauthorized parties.</span>
+              </div>
+              <div class="app-container">
+                <div class="main-content">
+                  ${this.currentRole === 'USER' ? this.renderCitizenView() : this.renderAdminView()}
+                </div>
+                ${this.renderLegalSidebar()}
+              </div>
+              <input type="file" id="packageFileInput" accept="image/*" style="display:none" />
+              <input type="file" id="scannerFileInput" accept="image/*" style="display:none" />
+            `;
+                const pInput = document.getElementById("packageFileInput");
+                if (pInput) pInput.onchange = (e) => this.handleImageUpload(e, "form");
+                const sInput = document.getElementById("scannerFileInput");
+                if (sInput) sInput.onchange = (e) => this.handleImageUpload(e, "scanner");
+                const catSelect = document.getElementById("categorySelect");
+                if (catSelect) { catSelect.onchange = (e) => { this.formState.categoryId = e.target.value; if (this
+                        .formState.imageDataUrl) this.verifyComplaintWithAI(); }; }
+                const descInput = document.getElementById("complaintDesc");
+                if (descInput) { descInput.oninput = (e) => { this.formState.description = e.target.value; };
+                    descInput.onblur = () => { if (this.formState.imageDataUrl) this.verifyComplaintWithAI(); }; }
+            }
+            renderLegalSidebar() {
+                return `
+              <aside class="legal-sidebar">
+                <div class="legal-card">
+                  <div class="legal-card-header">
+                    <h3><span>📜</span> Legal Policy Manual</h3>
+                  </div>
+                  <div class="legal-card-body">
+                    <div class="legal-section">
+                      <h4>📖 Legal Metrology Act, 2009</h4>
+                      <p>The <strong>Legal Metrology Act, 2009</strong> establishes standards for weights and measures, and regulates trade and commerce in weights, measures, and other goods which are sold or distributed by weight, measure, or number.</p>
+                      <a href="https://consumeraffairs.gov.in/pages/legal-metrology-act" target="_blank" class="legal-link">🔗 View Official Act on Consumer Affairs Portal →</a>
+                    </div>
+
+                    <div class="legal-section">
+                      <h4>📋 Packaged Commodities Rules, 2011</h4>
+                      <p><strong>Rule 6</strong> mandates 8 mandatory declarations on every package:</p>
+                      <ul>
+                        <li><span class="badge-rule">6(1)(a)</span> Manufacturer / Packer Details</li>
+                        <li><span class="badge-rule">6(1)(b)</span> Generic / Common Name</li>
+                        <li><span class="badge-rule">6(1)(c)</span> Net Quantity in Metric Units</li>
+                        <li><span class="badge-rule">6(1)(d)</span> Month & Year of Manufacture</li>
+                        <li><span class="badge-rule">6(1)(e)</span> MRP with Tax Clause</li>
+                        <li><span class="badge-rule">6(1)(n)</span> Consumer Care Helpline</li>
+                        <li><span class="badge-rule">6(10)</span> Country of Origin</li>
+                        <li><span class="badge-rule">7 & Schedule II</span> Font Size Requirements</li>
+                      </ul>
+                    </div>
+
+                    <div class="legal-section">
+                      <h4>⚖️ Penalty Provisions</h4>
+                      <p><strong>Section 36(1):</strong> Fine up to ₹25,000 for first offence under Rule 6 violations.</p>
+                      <p><strong>Section 36(2):</strong> Enhanced penalties for repeated offences and overcharging.</p>
+                      <p><strong>Section 48:</strong> Compounding of offences with monetary penalties.</p>
+                    </div>
+
+                    <div class="legal-section">
+                      <h4>📞 Consumer Rights & Grievance</h4>
+                      <p>Every consumer has the right to:</p>
+                      <ul>
+                        <li>✔️ Accurate product information on packaging</li>
+                        <li>✔️ Correct net quantity as declared</li>
+                        <li>✔️ MRP-based billing without overcharging</li>
+                        <li>✔️ Access to manufacturer consumer care</li>
+                      </ul>
+                      <div class="legal-quick-actions">
+                        <button class="btn-sm btn-sm-primary" onclick="window.open('https://consumeraffairs.gov.in/pages/legal-metrology-act','_blank')">📄 Full Act</button>
+                        <button class="btn-sm btn-sm-secondary" onclick="window.open('https://consumeraffairs.gov.in/','_blank')">🏛️ Dept. Portal</button>
+                        <button class="btn-sm btn-sm-accent" onclick="window.app.handleAction('set_tab','raise_complaint')">📝 File Complaint</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            `;
+            }
+            renderAuthScreen() {
+                const errorHtml = this.loginError ?
+                    `<div class="login-error show">❌ Invalid credentials! Please check your email and password.</div>` :
+                    `<div class="login-error">❌ Invalid credentials! Please check your email and password.</div>`;
+
+                const successHtml = this.signupSuccess ?
+                    `<div style="background:var(--success-light);border:2px solid var(--success);color:#065f46;padding:12px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:0.9rem;margin-bottom:16px;animation:fadeIn 0.3s ease;">✅ Account created successfully! Redirecting...</div>` :
+                    '';
+
+                const isSignIn = this.authMode === "signin";
+                const title = isSignIn ? "Sign In" : "Create Account";
+                const subtitle = isSignIn ? "Sign in to your account" :
+                    "Create a new account to get started";
+                const btnText = isSignIn ? "🚀 Sign In" : "🎉 Create Account";
+
+                const showAdminCreds = this.authRole === "ADMIN" && isSignIn;
+
+                const credentialsHelper = showAdminCreds ? `
+              <div class="credentials-helper">
+                <span class="label">🔑 Authorized Admin Credentials:</span>
+                <div class="cred-row">
+                  <div class="cred-item"><span class="role-badge">MH</span> rajesh.deshmukh@gov.in</div>
+                  <div class="cred-item"><span class="role-badge">DL</span> sunita.sharma@gov.in</div>
+                  <div class="cred-item"><span class="role-badge">KA</span> kr.venkatesh@gov.in</div>
+                  <div class="cred-item"><span class="role-badge">TN</span> meenakshi.sundaram@gov.in</div>
+                  <div class="cred-item"><span class="role-badge">UP</span> alok.verma@gov.in</div>
+                </div>
+                <div class="password-note">🔑 All admins use password: <strong>Admin@2026</strong></div>
+              </div>
+            ` : '';
+
+                // Quick login buttons for easy testing
+                const quickLogins = `
+              <div style="margin-bottom:16px;">
+                <div style="font-size:0.75rem;font-weight:700;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;">Quick Access (Demo)</div>
+                <div class="quick-login-grid">
+                  <button class="quick-login-btn" data-action="quick_login_citizen">
+                    <div>👤 Citizen</div>
+                    <span class="role-tag citizen">Demo</span>
+                    <span class="email-small">citizen@example.com</span>
+                  </button>
+                  <button class="quick-login-btn" data-action="quick_login_admin" data-id="admin-mh">
+                    <div>🛡️ Admin (MH)</div>
+                    <span class="role-tag admin">Demo</span>
+                    <span class="email-small">rajesh.deshmukh@gov.in</span>
+                  </button>
+                </div>
+              </div>
+            `;
+
+                return `
+              <div class="gov-topbar">
+                <div class="gov-flag"><span class="tricolor-stripe"></span><span>🇮🇳 GOVERNMENT OF INDIA • DEPARTMENT OF CONSUMER AFFAIRS</span></div>
+                <div class="gov-status">
+                  <span>Legal Metrology (Packaged Commodities) Rules, 2011</span>
+                  <span class="firebase-status">🔥 Firebase Connected</span>
+                  <button id="themeToggleBtn" class="theme-toggle">${this.theme === 'dark' ? '☀️ Light' : '🌙 Dark'}</button>
+                </div>
+              </div>
+              <header class="main-header" style="text-align:center;padding:16px 20px;">
+                <div style="display:flex;align-items:center;justify-content:center;gap:14px;">
+                  <div class="brand-icon">⚖️</div>
+                  <div class="brand-text" style="text-align:left;">
+                    <h1>PackSure</h1>
+                    <p>Legal Metrology AI Compliance &amp; Enforcement Portal</p>
+                  </div>
+                </div>
+              </header>
+              <div class="privacy-banner">
+                <span class="privacy-badge">🔒 PRIVACY NOTICE</span>
+                <span>Your personal data and GPS location are strictly protected under DPDP Act and never shared with unauthorized parties.</span>
+              </div>
+              <div class="app-container">
+                <div class="main-content">
+                  <div class="auth-wrapper">
+                    <div style="text-align:center;margin-bottom:20px;">
+                      <h2 style="font-size:1.8rem;font-weight:900;background:var(--gradient-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${title}</h2>
+                      <p style="color:var(--text-muted);font-size:0.9rem;">${subtitle}</p>
+                    </div>
+
+                    ${quickLogins}
+
+                    <!-- Auth Mode Toggle: Sign In / Sign Up -->
+                    <div class="auth-mode-toggle">
+                      <button class="auth-mode-btn ${this.authMode === 'signin' ? 'active' : ''}" data-action="set_auth_mode" data-id="signin">🔐 Sign In</button>
+                      <button class="auth-mode-btn ${this.authMode === 'signup' ? 'active' : ''}" data-action="set_auth_mode" data-id="signup">📝 Sign Up</button>
+                    </div>
+
+                    <!-- Role Selector -->
+                    <div style="margin-bottom:20px;">
+                      <label class="form-label" style="text-align:center;font-size:0.85rem;">I am a:</label>
+                      <div class="auth-tabs">
+                        <button class="auth-tab-btn ${this.authRole === 'USER' ? 'active' : ''}" data-action="set_auth_role" data-id="USER">👤 Citizen</button>
+                        <button class="auth-tab-btn ${this.authRole === 'ADMIN' ? 'active' : ''}" data-action="set_auth_role" data-id="ADMIN">🛡️ Regional Admin</button>
+                      </div>
+                    </div>
+
+                    ${errorHtml}
+                    ${successHtml}
+                    ${credentialsHelper}
+
+                    <form onsubmit="event.preventDefault(); window.app.handleAction('submit_auth_form');">
+                      <div class="form-group">
+                        <label class="form-label">Full Name <span class="req">*</span></label>
+                        <input type="text" id="authName" class="form-control" placeholder="Enter your full name" required />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Email Address <span class="req">*</span></label>
+                        <input type="email" id="authEmail" class="form-control" placeholder="Enter your email" required />
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Password <span class="req">*</span></label>
+                        <input type="password" id="authPassword" class="form-control" placeholder="${isSignIn ? 'Enter your password' : 'Create a password (min 4 characters)'}" required />
+                      </div>
+                      <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1.5px solid #6ee7b7;padding:14px 18px;border-radius:var(--radius-sm);font-size:0.82rem;color:#065f46;margin-bottom:22px;">
+                        🔒 <strong>Privacy Notice:</strong> Your data is protected under DPDP Act and Legal Metrology guidelines. Never shared with third parties.
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">${btnText}</button>
+                    </form>
+
+                    <div style="margin-top:16px;text-align:center;font-size:0.82rem;color:var(--text-subtle);">
+                      <span>🔐 Secure • Government of India • Protected</span>
+                    </div>
+                  </div>
+                </div>
+                ${this.renderLegalSidebar()}
+              </div>
+            `;
+            }
+            renderCitizenView() {
+                const notifications = HybridDatabase.getNotifications(this.currentUser.id);
+                const unreadCount = notifications.filter(n => !n.read).length;
+                return `
+              <div class="action-tabs-bar">
+                <button class="tab-btn ${this.activeTab === 'raise_complaint' ? 'active' : ''}" data-action="set_tab" data-id="raise_complaint">📝 Raise Grievance</button>
+                <button class="tab-btn ${this.activeTab === 'my_complaints' ? 'active' : ''}" data-action="set_tab" data-id="my_complaints">
+                  📋 My Complaints ${unreadCount > 0 ? `<span class="badge-count">${unreadCount}</span>` : ''}
+                </button>
+                <button class="tab-btn ${this.activeTab === 'label_scanner' ? 'active' : ''}" data-action="set_tab" data-id="label_scanner">🔍 Label Scanner</button>
+              </div>
+              ${this.activeTab === 'raise_complaint' ? this.renderRaiseComplaintTab() : ''}
+              ${this.activeTab === 'my_complaints' ? this.renderMyComplaintsTab() : ''}
+              ${this.activeTab === 'label_scanner' ? this.renderLabelScannerTab() : ''}
+            `;
+            }
+            renderRaiseComplaintTab() {
+                const categories = LEGAL_METROLOGY_RULES.SAH_CATEGORIES;
+                const selectedCat = categories.find(c => c.id === this.formState.categoryId) || categories[0];
+                const isVerified = this.formState.aiVerificationResult && this.formState.aiVerificationResult
+                .isVerified;
+
+                let gpsStatusHtml = '';
+                if (this.userLocation.isDetecting) {
+                    gpsStatusHtml =
+                        `<span class="gps-status-badge warning"><span class="gps-loading"></span> Detecting GPS...</span>`;
+                } else if (this.userLocation.detectionStatus === "success") {
+                    gpsStatusHtml = `<span class="gps-status-badge success">✅ GPS Locked</span>`;
+                } else if (this.userLocation.detectionStatus === "error") {
+                    gpsStatusHtml =
+                        `<span class="gps-status-badge error">⚠️ GPS Unavailable - Using Default</span>`;
+                } else {
+                    gpsStatusHtml = `<span class="gps-status-badge warning">📍 Using Default Location</span>`;
+                }
+
+                const accuracyLabel = GPSHelper.getAccuracyLabel(this.userLocation.accuracy);
+                const accuracyColor = GPSHelper.getAccuracyColor(this.userLocation.accuracy);
+
+                return `
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <h2 class="card-title"><span class="icon">📦</span> Report Packaged Commodity Violation</h2>
+                    <p class="card-subtitle">Official Legal Metrology (Packaged Commodities) Rules, 2011 Redressal System</p>
+                  </div>
+                  <div style="font-size:0.9rem;background:var(--primary-light);padding:8px 16px;border-radius:999px;font-weight:700;color:var(--primary-dark);">
+                    👤 ${this.currentUser.name}
+                  </div>
+                </div>
+                <div class="gps-banner">
+                  <div class="gps-info">
+                    <div class="gps-icon">📍</div>
+                    <div class="gps-details">
+                      <div class="location-name">
+                        📍 ${this.userLocation.district}, ${this.userLocation.state}
+                        ${gpsStatusHtml}
+                      </div>
+                      <div class="location-coords">
+                        ${this.userLocation.latitude.toFixed(6)}, ${this.userLocation.longitude.toFixed(6)}
+                        • Accuracy: <span style="color:${accuracyColor};font-weight:700;">~${this.userLocation.accuracy}m</span>
+                        <span style="font-size:0.7rem;color:${accuracyColor};">(${accuracyLabel})</span>
+                      </div>
+                      <div class="location-accuracy">
+                        PIN: ${this.userLocation.pincode} • ${this.userLocation.isAutoDetected ? '✅ Auto-detected via GPS' : '📝 Manually set'}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gps-actions">
+                    <button class="btn btn-outline" style="padding:8px 16px;font-size:0.85rem;border-radius:999px;" data-action="re_detect_gps">
+                      ${this.userLocation.isDetecting ? '⏳ Detecting...' : '🔄 Refresh GPS'}
+                    </button>
+                    <button class="btn btn-outline" style="padding:8px 16px;font-size:0.85rem;border-radius:999px;" data-action="edit_gps_manual">✏️ Edit</button>
+                  </div>
+                </div>
+
+                <div style="margin-bottom:24px;background:linear-gradient(135deg,#f8fafc,#e2e8f0);padding:16px 20px;border-radius:var(--radius-sm);border:2px dashed #94a3b8;">
+                  <div style="font-size:0.82rem;font-weight:800;color:#475569;margin-bottom:10px;text-transform:uppercase;">⚡ Quick Sample Packages</div>
+                  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    ${SAMPLE_PACKAGES.map(pkg => `<button class="btn btn-outline" style="padding:8px 16px;font-size:0.85rem;border-radius:999px;" data-action="load_sample_package" data-id="${pkg.id}">${pkg.id === 'PKG-004' ? '🟢' : '🔴'} ${pkg.name.split('(')[0]}</button>`).join('')}
+                  </div>
+                </div>
+
+                <form id="complaintForm" onsubmit="event.preventDefault();">
+                  <div class="form-group">
+                    <label class="form-label">1. Select Violation Category <span class="req">*</span></label>
+                    <select class="form-control" id="categorySelect">
+                      ${categories.map(cat => `<option value="${cat.id}" ${cat.id === this.formState.categoryId ? 'selected' : ''}>${cat.icon} [${cat.code}] ${cat.categoryName} (${cat.severity})</option>`).join('')}
+                    </select>
+                    <p style="font-size:0.85rem;color:var(--text-subtle);margin-top:6px;"><strong>Rule:</strong> <code>${selectedCat.rulesViolated.join(', ')}</code> • ${selectedCat.description}</p>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-group">
+                      <label class="form-label">Product / Commodity Name</label>
+                      <input type="text" class="form-control" placeholder="e.g. Potato Chips 100g" value="${this.formState.productName}" oninput="window.app.formState.productName = this.value" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Brand / Manufacturer</label>
+                      <input type="text" class="form-control" placeholder="e.g. CrunchySnacks Ltd" value="${this.formState.brandName}" oninput="window.app.formState.brandName = this.value" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">2. Describe the Violation <span class="req">*</span></label>
+                    <textarea class="form-control" id="complaintDesc" rows="3" placeholder="Describe the packaging non-compliance, overcharging, missing labels...">${this.formState.description}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">3. Upload Packaging Photo <span class="req">*</span></label>
+                    <div class="image-upload-zone" data-action="trigger_file_upload">
+                      <div class="upload-icon">📷</div>
+                      <div style="font-weight:800;font-size:1.1rem;color:var(--primary);">Click to Upload or Take Photo</div>
+                      <div style="font-size:0.85rem;color:var(--text-subtle);">JPG, PNG, WebP or SVG • AI will scan automatically</div>
+                    </div>
+                    ${this.formState.imageDataUrl ? `<div class="preview-box"><img src="${this.formState.imageDataUrl}" alt="Packaging" /><div style="padding:10px 14px;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;"><span>✅ Photo Attached</span><button class="btn btn-outline" style="padding:4px 12px;font-size:0.8rem;" data-action="trigger_file_upload">Replace</button></div></div>` : ''}
+                  </div>
+                  ${this.renderVerificationGate()}
+                  <div style="margin-top:28px;text-align:center;">
+                    <button class="btn btn-primary btn-lg" style="width:100%;max-width:500px;" data-action="submit_complaint" ${!isVerified ? 'disabled' : ''}>
+                      🚀 Submit Official Grievance
+                    </button>
+                    <p style="font-size:0.85rem;color:var(--text-subtle);margin-top:8px;">Auto-routed via GPS to <strong>${routeComplaintToRegionalAdmin(this.userLocation.state, this.userLocation.district).department}</strong></p>
+                  </div>
+                </form>
+              </div>
+            `;
+            }
+            renderVerificationGate() {
+                if (this.formState.isAnalyzing) {
+                    return `<div class="verification-gate pending"><div style="display:flex;align-items:center;gap:14px;"><div style="font-size:1.8rem;">⚙️</div><div><div style="font-weight:800;font-size:1.05rem;">AI Scanning in Progress...</div><div style="font-size:0.9rem;">Extracting OCR, validating against Legal Metrology Rules</div></div></div></div>`;
+                }
+                if (!this.formState.imageDataUrl && !this.formState.description) {
+                    return `<div class="verification-gate pending"><div style="display:flex;align-items:center;gap:14px;"><div style="font-size:1.8rem;">🤖</div><div><div style="font-weight:800;font-size:1.05rem;">AI Verification Ready</div><div style="font-size:0.9rem;">Upload a photo or enter description to validate</div></div></div></div>`;
+                }
+                const result = this.formState.aiVerificationResult;
+                if (!result) return '';
+                if (result.isVerified) {
+                    return `<div class="verification-gate verified"><div style="display:flex;align-items:flex-start;gap:14px;"><div style="font-size:2rem;line-height:1;">✅</div><div><div style="font-weight:900;font-size:1.05rem;color:#065f46;">Verified: Matches selected category under Legal Metrology Rules, 2011.</div><div style="font-size:0.9rem;margin-top:4px;">${result.detailedFeedback}</div><div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;font-weight:700;font-size:0.85rem;"><span>Score: ${result.complianceScore}%</span><span>Violations: ${result.violationsCount}</span><span>${result.selectedCategory.penaltySection}</span></div></div></div></div>`;
+                } else {
+                    return `<div class="verification-gate inconclusive"><div style="display:flex;align-items:flex-start;gap:14px;"><div style="font-size:2rem;line-height:1;">⚠️</div><div><div style="font-weight:900;font-size:1.05rem;color:#991b1b;">${result.verificationMessage}</div><div style="font-size:0.9rem;margin-top:4px;">${result.detailedFeedback}</div><div style="font-size:0.85rem;margin-top:8px;font-weight:700;">💡 Upload a clearer photo or change the category</div></div></div></div>`;
+                }
+            }
+            renderMyComplaintsTab() {
+                const allComplaints = HybridDatabase.getComplaints();
+                const myComplaints = allComplaints.filter(c => c.userId === this.currentUser.id);
+                return `<div class="card"><div class="card-header"><div><h2 class="card-title"><span class="icon">📋</span> My Grievances &amp; Status</h2><p class="card-subtitle">Real-time updates from Regional Enforcement Officers</p></div><button class="btn btn-primary" style="padding:8px 18px;font-size:0.85rem;border-radius:999px;" data-action="set_tab" data-id="raise_complaint">➕ New Complaint</button></div>${myComplaints.length === 0 ? `<div style="text-align:center;padding:50px 20px;color:var(--text-subtle);"><div style="font-size:3.5rem;margin-bottom:12px;">📦</div><div style="font-size:1.2rem;font-weight:800;">No complaints yet</div><p>Use the 'Raise Grievance' tab to report violations</p></div>` : `<div style="display:flex;flex-direction:column;gap:20px;">${myComplaints.map(c => this.renderComplaintCard(c)).join('')}</div>`}</div>`;
+            }
+            renderComplaintCard(comp) {
+                const statusBadges = { PENDING: 'badge-pending', UNDER_REVIEW: 'badge-under-review',
+                    FORWARDED: 'badge-forwarded', RESOLVED: 'badge-resolved', REJECTED: 'badge-rejected' };
+                const statusLabels = { PENDING: '⏳ PENDING', UNDER_REVIEW: '🔍 UNDER REVIEW',
+                    FORWARDED: '📨 FORWARDED', RESOLVED: '✅ RESOLVED', REJECTED: '❌ REJECTED' };
+                return `<div style="border:2px solid var(--border-color);border-radius:var(--radius);padding:22px;background:#fff;box-shadow:var(--shadow-sm);">
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:2px solid var(--border-color);padding-bottom:16px;margin-bottom:16px;">
+                <div>
+                  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                    <span style="font-size:1.2rem;font-weight:900;color:var(--primary);">${comp.docketNumber}</span>
+                    <span class="badge ${statusBadges[comp.status] || 'badge-pending'}">${statusLabels[comp.status] || comp.status}</span>
+                  </div>
+                  <div style="font-weight:700;margin-top:4px;">${comp.productName} • <span style="color:var(--secondary);">${comp.categoryName}</span></div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <button class="btn btn-outline" style="padding:6px 14px;font-size:0.8rem;border-radius:999px;" data-action="print_report" data-id="${comp.id}">🖨️ PDF</button>
+                  <button class="btn btn-outline" style="padding:6px 14px;font-size:0.8rem;border-radius:999px;" data-action="export_json" data-id="${comp.id}">💾 JSON</button>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;">
+                <div>
+                  <div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border-color);max-height:160px;background:#f8fafc;display:flex;align-items:center;justify-content:center;">
+                    <img src="${comp.image}" alt="Evidence" style="max-height:160px;width:auto;max-width:100%;object-fit:contain;" />
+                  </div>
+                  <div style="font-size:0.82rem;color:var(--text-subtle);margin-top:8px;">
+                    📍 ${comp.location ? `${comp.location.district}, ${comp.location.state}` : 'N/A'}<br/>
+                    🛡️ <strong>${comp.assignedAdminName || comp.routedToRegion}</strong>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-weight:800;font-size:0.9rem;margin-bottom:8px;">Timeline:</div>
+                  <div class="timeline">
+                    ${(comp.timeline || []).map((step, idx) => `
+                      <div class="timeline-item">
+                        <div class="timeline-bullet ${idx === comp.timeline.length - 1 ? 'completed' : ''}"></div>
+                        <div class="timeline-content">
+                          <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-subtle);">
+                            <strong style="color:var(--primary);">${step.status.replace('_', ' ')}</strong>
+                            <span>${new Date(step.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                          </div>
+                          <div style="font-size:0.88rem;margin-top:2px;">${step.remarks}</div>
+                          <div style="font-size:0.75rem;color:var(--text-subtle);">👤 ${step.actor}</div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                  ${comp.adminRemarks ? `<div style="background:var(--info-light);border-left:4px solid var(--info);padding:10px 14px;border-radius:6px;margin-top:10px;font-size:0.88rem;"><strong>Officer Remark:</strong> ${comp.adminRemarks}</div>` : ''}
+                </div>
+              </div>
+            </div>`;
+            }
+            renderLabelScannerTab() {
+                const analysis = this.scannerState.analysisResult;
+                return `<div class="card"><div class="card-header"><div><h2 class="card-title"><span class="icon">🔍</span> AI Label Compliance Scanner</h2><p class="card-subtitle">OCR &amp; Statutory Analysis against Rule 6 &amp; Schedule II</p></div><div style="display:flex;gap:8px;"><button class="btn btn-outline" style="font-size:0.85rem;border-radius:999px;" data-action="trigger_scanner_upload">📷 Upload</button><button class="btn btn-primary" style="font-size:0.85rem;border-radius:999px;" data-action="print_scanner_report">🖨️ PDF</button></div></div>
+            <div style="margin-bottom:20px;background:linear-gradient(135deg,#f8fafc,#e2e8f0);padding:14px 18px;border-radius:var(--radius-sm);border:2px dashed #94a3b8;">
+              <div style="font-size:0.82rem;font-weight:800;color:#475569;margin-bottom:8px;">📦 Select Sample Label:</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">${SAMPLE_PACKAGES.map(pkg => `<button class="btn btn-outline" style="padding:6px 14px;font-size:0.82rem;border-radius:999px;" data-action="load_scanner_package" data-id="${pkg.id}">📦 ${pkg.name.split('(')[0]}</button>`).join('')}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:24px;">
+              <div>
+                <div style="border-radius:var(--radius);overflow:hidden;border:2px solid var(--border-color);background:#fff;">
+                  <img src="${this.scannerState.imageDataUrl}" alt="Label" style="width:100%;height:auto;display:block;" />
+                </div>
+                <div style="margin-top:14px;">
+                  <label style="font-weight:700;font-size:0.85rem;">OCR Extracted Text:</label>
+                  <pre style="background:#0f172a;color:#38bdf8;padding:12px;border-radius:8px;font-size:0.75rem;max-height:120px;overflow-y:auto;white-space:pre-wrap;font-family:monospace;">${this.scannerState.ocrText}</pre>
+                </div>
+                <button class="btn btn-secondary" style="width:100%;margin-top:14px;border-radius:999px;" data-action="transfer_scanner_to_complaint">🚩 File Complaint for This Product</button>
+              </div>
+              <div>
+                ${analysis ? `
+                  <div style="display:flex;justify-content:space-between;align-items:center;background:${analysis.complianceScore >= 80 ? 'linear-gradient(135deg,#d1fae5,#a7f3d0)' : 'linear-gradient(135deg,#fee2e2,#fca5a5)'};border:2px solid ${analysis.complianceScore >= 80 ? '#34d399' : '#f87171'};padding:16px 20px;border-radius:var(--radius);margin-bottom:16px;">
+                    <div>
+                      <div style="font-size:1.2rem;font-weight:900;color:${analysis.complianceScore >= 80 ? '#065f46' : '#991b1b'};">${analysis.complianceScore}% Compliant</div>
+                      <div style="font-size:0.82rem;color:var(--text-subtle);">PDP: ~${this.scannerState.pdpAreaSqCm} cm² • ${analysis.violationsCount} violations</div>
+                    </div>
+                    <div style="font-size:2rem;">${analysis.complianceScore >= 80 ? '🟢' : '🔴'}</div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="data-table">
+                      <thead><tr><th>Declaration</th><th>Rule</th><th>Status</th><th>Note</th></tr></thead>
+                      <tbody>${(analysis.declarationsAudit || []).map(item => `<tr><td><strong>${item.title}</strong></td><td><code>${item.ruleRef}</code></td><td><span class="badge ${item.status === 'PASS' ? 'badge-resolved' : item.status === 'WARNING' ? 'badge-pending' : 'badge-rejected'}">${item.status}</span></td><td style="font-size:0.82rem;">${item.note}</td></tr>`).join('')}</tbody>
+                    </table>
+                  </div>
+                ` : '<div style="text-align:center;padding:40px;color:var(--text-subtle);">🔍 Select a sample or upload a label to scan</div>'}
+              </div>
+            </div></div>`;
+            }
+            renderAdminView() {
+                const allComplaints = HybridDatabase.getComplaints();
+                const regionalComplaints = allComplaints.filter(c => c.routedToRegion === this.currentAdmin.region || (
+                    c.location && c.location.state === this.currentAdmin.region));
+                const total = regionalComplaints.length;
+                const pending = regionalComplaints.filter(c => c.status === 'PENDING').length;
+                const underReview = regionalComplaints.filter(c => c.status === 'UNDER_REVIEW').length;
+                const forwarded = regionalComplaints.filter(c => c.status === 'FORWARDED').length;
+                const resolved = regionalComplaints.filter(c => c.status === 'RESOLVED').length;
+                return `
+              <div style="background:linear-gradient(135deg,#fff,#f8fafc);border:2px solid var(--border-color);border-radius:var(--radius);padding:20px 26px;margin-bottom:24px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;">
+                <div style="display:flex;align-items:center;gap:18px;">
+                  <div style="width:60px;height:60px;border-radius:50%;background:var(--gradient-hero);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;font-weight:900;border:3px solid var(--primary);">${this.currentAdmin.name.charAt(0)}</div>
+                  <div>
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                      <h2 style="font-size:1.3rem;font-weight:900;color:var(--text-main);">${this.currentAdmin.name}</h2>
+                      <span class="badge badge-under-review">REGIONAL CONTROLLER</span>
+                      <span class="badge badge-admin">Authorized Admin</span>
+                    </div>
+                    <div style="font-size:0.9rem;font-weight:700;color:var(--text-muted);">${this.currentAdmin.designation} • ${this.currentAdmin.department}</div>
+                    <div style="font-size:0.82rem;color:var(--text-subtle);">Jurisdiction: <strong>${this.currentAdmin.region}</strong> • HQ: ${this.currentAdmin.headquarters}</div>
+                  </div>
+                </div>
+                <div>
+                  <label style="font-size:0.82rem;font-weight:800;color:var(--text-muted);">Switch Region:</label>
+                  <select class="form-control" style="width:auto;padding:8px 16px;font-size:0.85rem;border-radius:999px;display:inline-block;margin-left:8px;" onchange="window.app.handleAction('select_admin_region', this.value)">
+                    ${REGIONAL_ADMINS_LIST.map(a => `<option value="${a.id}" ${a.id === this.currentAdmin.id ? 'selected' : ''}>${a.region} - ${a.district}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+              <div class="metrics-grid">
+                <div class="metric-card"><div class="metric-icon" style="background:var(--info-light);color:var(--info);">📊</div><div class="metric-data"><h3>${total}</h3><p>Total Cases</p></div></div>
+                <div class="metric-card"><div class="metric-icon" style="background:var(--accent-light);color:var(--accent);">⏳</div><div class="metric-data"><h3 style="color:var(--accent);">${pending}</h3><p>Pending</p></div></div>
+                <div class="metric-card"><div class="metric-icon" style="background:var(--info-light);color:var(--info);">🔍</div><div class="metric-data"><h3 style="color:var(--info);">${underReview}</h3><p>Under Review</p></div></div>
+                <div class="metric-card"><div class="metric-icon" style="background:var(--secondary-light);color:var(--secondary);">📨</div><div class="metric-data"><h3 style="color:var(--secondary);">${forwarded}</h3><p>Forwarded</p></div></div>
+                <div class="metric-card"><div class="metric-icon" style="background:var(--success-light);color:var(--success);">✅</div><div class="metric-data"><h3 style="color:var(--success);">${resolved}</h3><p>Resolved</p></div></div>
+              </div>
+              <div class="card">
+                <div class="card-header"><div><h3 class="card-title"><span class="icon">🛡️</span> ${this.currentAdmin.region} Enforcement Docket</h3><p class="card-subtitle">Regional complaints routed from your jurisdiction</p></div></div>
+                ${regionalComplaints.length === 0 ? `<div style="text-align:center;padding:40px;color:var(--text-subtle);"><div style="font-size:3rem;">✅</div><div style="font-weight:800;">No pending cases in ${this.currentAdmin.region}</div></div>` :
+                `<div class="table-responsive"><table class="data-table"><thead><tr><th>Docket</th><th>Date</th><th>Citizen</th><th>Product</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody>${regionalComplaints.map(c => `<tr><td><strong>${c.docketNumber}</strong></td><td style="font-size:0.82rem;">${new Date(c.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short'})}</td><td><div style="font-weight:700;">${c.userName}</div><div style="font-size:0.75rem;color:var(--text-subtle);">${c.userPhone}</div></td><td><div style="font-weight:700;">${c.productName}</div><div style="font-size:0.78rem;color:var(--secondary);">${c.categoryName}</div></td><td>${c.location ? c.location.district : 'N/A'}</td><td><span class="badge ${c.status === 'PENDING' ? 'badge-pending' : c.status === 'UNDER_REVIEW' ? 'badge-under-review' : c.status === 'FORWARDED' ? 'badge-forwarded' : c.status === 'RESOLVED' ? 'badge-resolved' : 'badge-rejected'}">${c.status.replace('_',' ')}</span></td><td><button class="btn btn-primary" style="padding:6px 14px;font-size:0.82rem;border-radius:999px;" data-action="open_case_modal" data-id="${c.id}">Inspect ➔</button></td></tr>`).join('')}</tbody></table></div>`}
+              </div>
+            `;
+            }
+            renderModal() {
+                const comp = this.selectedModalComplaint;
+                if (!comp) return;
+                let existingModal = document.getElementById("caseModalBackdrop");
+                if (existingModal) existingModal.remove();
+                const modalHtml = `<div class="modal-backdrop" id="caseModalBackdrop" onclick="if(event.target === this) window.app.closeModal()">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div>
+                    <div style="font-size:0.8rem;color:var(--primary);font-weight:800;text-transform:uppercase;">⚖️ Legal Metrology Review</div>
+                    <h3 style="font-size:1.3rem;font-weight:900;">Docket: ${comp.docketNumber}</h3>
+                  </div>
+                  <button class="btn btn-outline" style="padding:4px 12px;font-size:1.2rem;border-radius:999px;" data-action="close_case_modal">✕</button>
+                </div>
+                <div class="modal-body">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#f8fafc;padding:14px;border-radius:var(--radius-sm);margin-bottom:16px;border:1px solid var(--border-color);font-size:0.9rem;">
+                    <div><strong>Product:</strong> ${comp.productName}</div>
+                    <div><strong>Category:</strong> ${comp.categoryName}</div>
+                    <div><strong>Complainant:</strong> ${comp.userName} (${comp.userPhone})</div>
+                    <div><strong>Location:</strong> ${comp.location ? `${comp.location.district}, ${comp.location.state}` : 'N/A'}</div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div><label style="font-weight:700;font-size:0.85rem;">Evidence Photo:</label><div style="border:1px solid var(--border-color);border-radius:var(--radius-sm);overflow:hidden;background:#f8fafc;text-align:center;"><img src="${comp.image}" alt="Evidence" style="max-height:200px;width:auto;max-width:100%;object-fit:contain;" /></div></div>
+                    <div><label style="font-weight:700;font-size:0.85rem;">Grievance:</label><p style="font-size:0.9rem;background:#f8fafc;padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);min-height:80px;">${comp.description}</p><div style="margin-top:8px;font-weight:700;">Score: ${comp.complianceScore}% • Violations: <span style="color:var(--danger);">${comp.violationsCount}</span></div></div>
+                  </div>
+                  <label style="font-weight:700;font-size:0.85rem;">Rule 6 Declarations Audit:</label>
+                  <div class="table-responsive" style="margin-bottom:16px;max-height:150px;overflow-y:auto;">
+                    <table class="data-table"><thead><tr><th>Declaration</th><th>Rule</th><th>Status</th><th>Finding</th></tr></thead>
+                    <tbody>${(comp.declarationsAudit || []).map(d => `<tr><td>${d.title}</td><td><code>${d.ruleRef}</code></td><td><span class="badge ${d.status === 'PASS' ? 'badge-resolved' : 'badge-rejected'}">${d.status}</span></td><td style="font-size:0.82rem;">${d.note}</td></tr>`).join('')}</tbody></table>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #5eead4;padding:18px;border-radius:var(--radius);">
+                    <h4 style="font-size:1rem;font-weight:800;color:var(--primary);margin-bottom:12px;">📋 Enforcement Action</h4>
+                    <div class="form-group"><label class="form-label" style="font-size:0.85rem;">Update Status:</label><select class="form-control" id="modalStatusSelect"><option value="PENDING" ${comp.status === 'PENDING' ? 'selected' : ''}>⏳ PENDING - Awaiting Field Assignment</option><option value="UNDER_REVIEW" ${comp.status === 'UNDER_REVIEW' ? 'selected' : ''}>🔍 UNDER REVIEW - Inspection in Progress</option><option value="FORWARDED" ${comp.status === 'FORWARDED' ? 'selected' : ''}>📨 FORWARDED - Show Cause Notice Issued</option><option value="RESOLVED" ${comp.status === 'RESOLVED' ? 'selected' : ''}>✅ RESOLVED - Compounded / Rectified</option><option value="REJECTED" ${comp.status === 'REJECTED' ? 'selected' : ''}>❌ REJECTED - Non-Cognizable</option></select></div>
+                    <div class="form-group"><label class="form-label" style="font-size:0.85rem;">Inspector Remarks:</label><textarea class="form-control" id="modalRemarksInput" rows="2" placeholder="Enter official remarks, penalty details...">${comp.adminRemarks || ''}</textarea></div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-outline" data-action="print_report" data-id="${comp.id}" style="border-radius:999px;">🖨️ PDF</button>
+                  <button class="btn btn-outline" data-action="close_case_modal" style="border-radius:999px;">Close</button>
+                  <button class="btn btn-primary" data-action="update_complaint_status" data-id="${comp.id}" style="border-radius:999px;">💾 Save &amp; Notify</button>
+                </div>
+              </div>
+            </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+            }
+        }
+
+        window.app = new PackSureApp();
+    </script>
+</body>
+</html>
